@@ -1,7 +1,7 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.RepositoryInterface;
+import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import org.junit.Before;
@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +27,7 @@ public class CategoryOverviewPresenterTest {
     CategoryOverviewInterface.View view;
 
     @Mock
-    RepositoryInterface repository;
+    OverviewRepositoryInterface repository;
 
     CategoryOverviewPresenter presenter;
 
@@ -73,6 +72,20 @@ public class CategoryOverviewPresenterTest {
         when(repository.deleteCategory(position)).thenReturn(obsError);
         presenter.deleteCategory(position);
         verify(view).showMessage(CategoryOverviewPresenter.DELETE_ERROR_MESSAGE);
+    }
+
+    @Test
+    public void getList_Success(){
+        when(repository.getCategoryList()).thenReturn(obsSuccess);
+        presenter.getCategories();
+        verify(view).showCategories(anyList());
+    }
+
+    @Test
+    public void getList_Error(){
+        when(repository.getCategoryList()).thenReturn(obsError);
+        presenter.getCategories();
+        verify(view).showMessage(CategoryOverviewPresenter.LIST_ERROR_MESSAGE);
     }
 
 
