@@ -2,7 +2,9 @@ package com.tot_up.chris.tot_up.categoryoverview;
 
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.RepositoryInterface;
+import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
+
+import java.util.List;
 
 public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInterface.View> implements CategoryOverviewInterface.Presenter {
 
@@ -10,10 +12,11 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     public static final String ADD_ERROR_MESSAGE = "Error adding category";
     public static final String DELETE_SUCCESS_MESSAGE = "Category deleted";
     public static final String DELETE_ERROR_MESSAGE = "Error deleting category";
+    public static final String LIST_ERROR_MESSAGE = "Error deleting category";
 
-    private RepositoryInterface repository;
+    private OverviewRepositoryInterface repository;
 
-    public CategoryOverviewPresenter(CategoryOverviewInterface.View view, RepositoryInterface repository){
+    public CategoryOverviewPresenter(CategoryOverviewInterface.View view, OverviewRepositoryInterface repository){
         super.attachView(view);
         this.repository = repository;
     }
@@ -42,6 +45,16 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
                     e.printStackTrace();
                     getView().showMessage(DELETE_ERROR_MESSAGE);
                 });
+    }
+
+    @Override
+    public void getCategories() {
+        repository.getCategoryList()
+                .subscribe(categories -> getView().showCategories(categories),
+                        e -> {
+                            e.printStackTrace();
+                            getView().showMessage(LIST_ERROR_MESSAGE);
+                        });
     }
 
     @Override

@@ -23,6 +23,8 @@ public interface CategoryOverviewInterface {
 
         void deleteCategory(int position);
 
+        void getCategories();
+
         void onStop();
 
     }
