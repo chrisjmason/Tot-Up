@@ -6,8 +6,11 @@ import com.tot_up.chris.tot_up.data.model.Category;
 import java.util.List;
 
 import rx.Observable;
+import rx.Scheduler;
 
 public interface OverviewRepositoryInterface extends MvpInterface.Model {
+
+    void setSchedulers(Scheduler workScheduler, Scheduler mainScheduler);
 
     Observable<List<Category>> addCategory(Category category);
 
