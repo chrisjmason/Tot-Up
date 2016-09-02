@@ -7,11 +7,13 @@ import java.util.List;
 
 import rx.Observable;
 
-public interface RepositoryInterface extends MvpInterface.Model {
+public interface OverviewRepositoryInterface extends MvpInterface.Model {
 
     Observable<List<Category>> addCategory(Category category);
 
     Observable<List<Category>> deleteCategory(int position);
+
+    Observable<List<Category>> getCategoryList();
 
     Observable<Category> getCategory(int position);
 }
