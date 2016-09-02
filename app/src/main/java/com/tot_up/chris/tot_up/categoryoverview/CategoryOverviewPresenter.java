@@ -4,8 +4,6 @@ import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
 
-import java.util.List;
-
 public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInterface.View> implements CategoryOverviewInterface.Presenter {
 
     public static final String ADD_SUCCESS_MESSAGE = "Category added";
