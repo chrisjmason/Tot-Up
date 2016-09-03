@@ -10,6 +10,6 @@ public interface DbInterface {
 
     List<Category> getCategoryList();
 
-    Void addCategory();
+    boolean addCategory();
 
 }

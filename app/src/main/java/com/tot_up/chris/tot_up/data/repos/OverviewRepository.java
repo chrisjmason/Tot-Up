@@ -31,7 +31,7 @@ public class OverviewRepository implements OverviewRepositoryInterface {
         return Observable.just(database.addCategory())
                 .subscribeOn(workScheduler)
                 .observeOn(uiScheduler)
-                .map(aVoid -> database.getCategoryList());
+                .map(added -> database.getCategoryList());
     }
 
     @Override
