@@ -7,6 +7,7 @@ import com.tot_up.chris.tot_up.util.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyList;
@@ -50,6 +51,7 @@ public class CategoryOverviewPresenterTest {
         presenter.addCategory(category);
         verify(view).showMessage(CategoryOverviewPresenter.ADD_SUCCESS_MESSAGE);
         verify(view).showCategories(anyList());
+        Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -57,6 +59,7 @@ public class CategoryOverviewPresenterTest {
         when(repository.addCategory(category)).thenReturn(obsError);
         presenter.addCategory(category);
         verify(view).showMessage(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
+        Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -65,6 +68,7 @@ public class CategoryOverviewPresenterTest {
         presenter.deleteCategory(position);
         verify(view).showCategories(anyList());
         verify(view).showMessage(CategoryOverviewPresenter.DELETE_SUCCESS_MESSAGE);
+        Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -72,6 +76,7 @@ public class CategoryOverviewPresenterTest {
         when(repository.deleteCategory(position)).thenReturn(obsError);
         presenter.deleteCategory(position);
         verify(view).showMessage(CategoryOverviewPresenter.DELETE_ERROR_MESSAGE);
+        Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -79,6 +84,7 @@ public class CategoryOverviewPresenterTest {
         when(repository.getCategoryList()).thenReturn(obsSuccess);
         presenter.getCategories();
         verify(view).showCategories(anyList());
+        Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -86,6 +92,7 @@ public class CategoryOverviewPresenterTest {
         when(repository.getCategoryList()).thenReturn(obsError);
         presenter.getCategories();
         verify(view).showMessage(CategoryOverviewPresenter.LIST_ERROR_MESSAGE);
+        Mockito.verifyNoMoreInteractions(view);
     }
 
 
