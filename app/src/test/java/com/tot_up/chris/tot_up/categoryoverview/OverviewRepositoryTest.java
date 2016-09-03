@@ -46,6 +46,7 @@ public class OverviewRepositoryTest {
         repository.getCategoryList()
                 .subscribe(testSubscriber);
 
+        verify(database).getCategoryList();
         testSubscriber.assertValue(categoryList);
     }
 
@@ -90,6 +91,25 @@ public class OverviewRepositoryTest {
         verifyNoMoreInteractions(database);
 
         testSubscriber.assertValue(categoryList);
+    }
+
+    @Test
+    public void getCategory_Success(){
+        List<Category> categoryList = getFakeList();
+        int positionToGet = 1;
+
+        when(database.getCategory(positionToGet)).thenReturn(categoryList.get(positionToGet));
+
+        TestSubscriber<Category> testSubscriber = new TestSubscriber<>();
+        testSubscriber.assertNoErrors();
+
+        repository.getCategory(positionToGet)
+                .subscribe(testSubscriber);
+
+        verify(database).getCategory(positionToGet);
+        verifyNoMoreInteractions(database);
+
+        testSubscriber.assertValue(categoryList.get(positionToGet));
     }
 
     public List<Category> getFakeList(){
