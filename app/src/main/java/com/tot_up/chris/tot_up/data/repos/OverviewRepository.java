@@ -3,10 +3,13 @@ package com.tot_up.chris.tot_up.data.repos;
 import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
 
+import java.io.IOException;
+import java.sql.SQLDataException;
 import java.util.List;
 
 import rx.Observable;
 import rx.Scheduler;
+import rx.functions.Func1;
 
 public class OverviewRepository implements OverviewRepositoryInterface {
     private DbInterface database;
@@ -24,8 +27,11 @@ public class OverviewRepository implements OverviewRepositoryInterface {
     }
 
     @Override
-    public Observable<List<Category>> addCategory(Category category) {
-        return null;
+    public Observable<List<Category>> addCategory(Category category){
+        return Observable.just(database.addCategory())
+                .subscribeOn(workScheduler)
+                .observeOn(uiScheduler)
+                .map(aVoid -> database.getCategoryList());
     }
 
     @Override

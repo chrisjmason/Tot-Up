@@ -3,6 +3,7 @@ package com.tot_up.chris.tot_up.data.repos;
 import com.tot_up.chris.tot_up.base.MvpInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
 
+import java.sql.SQLDataException;
 import java.util.List;
 
 import rx.Observable;
