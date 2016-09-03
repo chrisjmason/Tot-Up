@@ -9,6 +9,7 @@ import com.tot_up.chris.tot_up.util.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyList;
@@ -47,7 +48,27 @@ public class OverviewRepositoryTest {
                 .subscribe(testSubscriber);
 
         testSubscriber.assertValue(categoryList);
+    }
 
+    @Test
+    public void addCategory_Success(){
+        List<Category> categoryList = getFakeList();
+        Category categoryToAdd = new Category("test3",DateUtil.getDate());
+
+        when(database.addCategory()).thenReturn(categoryList.add(categoryToAdd));
+        when(database.getCategoryList()).thenReturn(categoryList);
+
+        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
+
+        testSubscriber.assertNoErrors();
+        repository.addCategory(categoryToAdd)
+                .subscribe(testSubscriber);
+
+        verify(database).addCategory();
+        verify(database).getCategoryList();
+        Mockito.verifyNoMoreInteractions(database);
+
+        testSubscriber.assertValue(categoryList);
     }
 
     public List<Category> getFakeList(){
