@@ -9,11 +9,10 @@ import com.tot_up.chris.tot_up.util.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -55,18 +54,40 @@ public class OverviewRepositoryTest {
         List<Category> categoryList = getFakeList();
         Category categoryToAdd = new Category("test3",DateUtil.getDate());
 
-        when(database.addCategory()).thenReturn(categoryList.add(categoryToAdd));
+        when(database.addCategory(categoryToAdd)).thenReturn(categoryList.add(categoryToAdd));
         when(database.getCategoryList()).thenReturn(categoryList);
 
         TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
-
         testSubscriber.assertNoErrors();
+
         repository.addCategory(categoryToAdd)
                 .subscribe(testSubscriber);
 
-        verify(database).addCategory();
+        verify(database).addCategory(categoryToAdd);
         verify(database).getCategoryList();
-        Mockito.verifyNoMoreInteractions(database);
+        verifyNoMoreInteractions(database);
+
+        testSubscriber.assertValue(categoryList);
+    }
+
+    @Test
+    public void deleteCategory_Success(){
+        List<Category> categoryList = getFakeList();
+        int positionToDelete = 1;
+        Category categoryToDelete = categoryList.get(positionToDelete);
+
+        when(database.deleteCategory(positionToDelete)).thenReturn(categoryList.remove(categoryToDelete));
+        when(database.getCategoryList()).thenReturn(categoryList);
+
+        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
+        testSubscriber.assertNoErrors();
+
+        repository.deleteCategory(positionToDelete)
+                .subscribe(testSubscriber);
+
+        verify(database).deleteCategory(positionToDelete);
+        verify(database).getCategoryList();
+        verifyNoMoreInteractions(database);
 
         testSubscriber.assertValue(categoryList);
     }
