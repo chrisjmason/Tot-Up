@@ -48,6 +48,8 @@ public class OverviewRepository implements OverviewRepositoryInterface {
 
     @Override
     public Observable<Category> getCategory(int position) {
-        return null;
+        return Observable.just(database.getCategory(position))
+                .subscribeOn(workScheduler)
+                .observeOn(uiScheduler);
     }
 }

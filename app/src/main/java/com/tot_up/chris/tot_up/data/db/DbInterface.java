@@ -12,4 +12,6 @@ public interface DbInterface {
 
     boolean deleteCategory(int position);
 
+    Category getCategory(int position);
+
 }
