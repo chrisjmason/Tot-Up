@@ -39,7 +39,6 @@
             android:layout_marginLeft="@dimen/very_small_margin"
             android:layout_marginRight="@dimen/very_small_margin"
             android:layout_above="@+id/date_text"
-            android:layout_alignStart="@+id/date_text"
             android:layout_marginBottom="@dimen/very_small_margin" />
 
         <TextView
