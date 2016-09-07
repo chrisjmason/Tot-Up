@@ -1,5 +1,6 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
+import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bowyer.app.fabtoolbar.FabToolbar;
@@ -19,12 +24,14 @@ import com.tot_up.chris.tot_up.data.db.FakeDb;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.OverviewRepository;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.List;
 
 public class CategoryOverviewActivity extends AppCompatActivity implements CategoryOverviewInterface.View{
 
     RecyclerView recyclerView;
+    FloatingActionButton openToolbarFab;
     FloatingActionButton addCategoryFab;
     DrawerLayout drawerLayout;
     CustomFabToolbar fabToolbar;
@@ -39,7 +46,6 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         presenter = new CategoryOverviewPresenter(this, new OverviewRepository(FakeDb.getInstance()));
         setUpViews();
         presenter.getCategories();
-
     }
 
     @Override
@@ -49,7 +55,6 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -65,15 +70,9 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     }
 
     @Override
-    public void addCategory() {
-
-    }
-
-    @Override
     public void showMessage(String error) {
         Toast.makeText(CategoryOverviewActivity.this, error, Toast.LENGTH_SHORT).show();
     }
-
 
     private CategoryOverviewAdapter setUpAdapter(){
         return new CategoryOverviewAdapter(presenter,this);
@@ -84,8 +83,9 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         setUpRecyclerView(adapter);
         setUpToolbar();
         setUpNavView();
+        setUpOpenToolbarFab();
         setUpFabToolbar();
-        setUpFab();
+        setUpAddCategoryFab();
     }
 
     private void setUpToolbar(){
@@ -121,17 +121,43 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
 
     private void setUpFabToolbar(){
         fabToolbar = (CustomFabToolbar) findViewById(R.id.fabtoolbar_category);
-        addCategoryFab = (FloatingActionButton) findViewById(R.id.fab_add_category);
-        fabToolbar.setFab(addCategoryFab);
+        fabToolbar.setFab(openToolbarFab);
+        fabToolbar.setOnClickListener(view -> fabToolbar.contractFab());
     }
 
-    private void setUpFab(){
-        addCategoryFab.setOnClickListener(view -> {
+    private void setUpOpenToolbarFab(){
+        openToolbarFab = (FloatingActionButton) findViewById(R.id.fab_open_toolbar_category);
+        openToolbarFab.setOnClickListener(view -> {
+            openToolbarFab.setVisibility(View.INVISIBLE);
             fabToolbar.expandFab();
-
         });
-
     }
 
+    private void setUpAddCategoryFab(){
+        addCategoryFab = (FloatingActionButton) findViewById(R.id.fab_add_category);
+        addCategoryFab.setOnClickListener(view -> {
+            String newCategoryName = getCategoryNameFromEditText();
+            addCategory(new Category(newCategoryName, DateUtil.getDate()));
+            fabToolbar.contractFab();
+            closeKeyboard();
+        });
+    }
+
+    private String getCategoryNameFromEditText(){
+        EditText newCategoryNameEditText = (EditText) findViewById(R.id.new_category_name);
+        String newCategoryName = newCategoryNameEditText.getText().toString();
+        newCategoryNameEditText.setText("");
+        return newCategoryName;
+    }
+
+    private void addCategory(Category category){
+        presenter.addCategory(category);
+    }
+
+    private void closeKeyboard(){
+        View view = this.getCurrentFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
 }
