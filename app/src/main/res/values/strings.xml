@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tot-Up</string>
+    <string name="add_category_edittext">Category name</string>
 </resources>

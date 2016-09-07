@@ -9,4 +9,6 @@
     <dimen name="large_margin">64dp</dimen>
 
     <dimen name="large_text">32sp</dimen>
+
+    <dimen name="fabtoolbar_height">200dp</dimen>
 </resources>
