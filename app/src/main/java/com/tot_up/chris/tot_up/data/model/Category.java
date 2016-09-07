@@ -22,6 +22,8 @@ public class Category {
         return total;
     }
 
+    public String getDate(){return date;}
+
     @Override
     public String toString() {
         return "Name: " + name
