@@ -34,6 +34,7 @@ public class CategoryOverviewPresenterTest {
 
     Observable<List<Category>> obsSuccess = Observable.just(getFakeList())
             .subscribeOn(Schedulers.immediate());
+    Observable<List<Category>> obsSuccessEmpty = Observable.just(new ArrayList<>());
     Observable<List<Category>> obsError = Observable.error(new IOException());
 
     Category category = new Category("test1", DateUtil.getDate());
@@ -42,6 +43,7 @@ public class CategoryOverviewPresenterTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+        repository.setSchedulers(Schedulers.immediate(), Schedulers.immediate());
         presenter = new CategoryOverviewPresenter(view,repository);
     }
 
@@ -93,6 +95,13 @@ public class CategoryOverviewPresenterTest {
         presenter.getCategories();
         verify(view).showMessage(CategoryOverviewPresenter.LIST_ERROR_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void getEmptyListEmptyScreenShown_Success(){
+        when(repository.getCategoryList()).thenReturn(obsSuccessEmpty);
+        presenter.getCategories();
+        verify(view).showEmptyScreen();
     }
 
 
