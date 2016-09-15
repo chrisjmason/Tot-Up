@@ -28,6 +28,9 @@ import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 public class CategoryOverviewActivity extends AppCompatActivity implements CategoryOverviewInterface.View{
 
     RecyclerView recyclerView;
@@ -43,7 +46,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_overview);
-        presenter = new CategoryOverviewPresenter(this, new OverviewRepository(FakeDb.getInstance()));
+        setUpPresenter();
         setUpViews();
         presenter.getCategories();
     }
@@ -72,6 +75,20 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     @Override
     public void showMessage(String error) {
         Toast.makeText(CategoryOverviewActivity.this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showEmptyScreen() {
+
+    }
+
+    private void setUpPresenter(){
+        //move repository initialisation to injector class
+        OverviewRepository repository = new OverviewRepository(FakeDb.getInstance());
+        repository.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread());
+
+        presenter = new CategoryOverviewPresenter(this,repository);
+
     }
 
     private CategoryOverviewAdapter setUpAdapter(){

@@ -11,6 +11,8 @@ public interface CategoryOverviewInterface {
 
         void showCategories(List<Category> categoryList);
 
+        void showEmptyScreen();
+
         void showMessage(String error);
 
     }

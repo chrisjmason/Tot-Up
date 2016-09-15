@@ -4,11 +4,14 @@ import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
 
+import java.util.List;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInterface.View> implements CategoryOverviewInterface.Presenter {
 
+    //move these strings.xml eventually
     public static final String ADD_SUCCESS_MESSAGE = "Category added";
     public static final String ADD_ERROR_MESSAGE = "Error adding category";
     public static final String DELETE_SUCCESS_MESSAGE = "Category deleted";
@@ -20,19 +23,18 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     public CategoryOverviewPresenter(CategoryOverviewInterface.View view, OverviewRepositoryInterface repository){
         super.attachView(view);
         this.repository = repository;
-        repository.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Override
     public void addCategory(Category category) {
         repository.addCategory(category)
                 .subscribe(categories -> {
-                            getView().showCategories(categories);
-                            getView().showMessage(ADD_SUCCESS_MESSAGE);
+                            updateView(categories);
+                            showMessageInView(ADD_SUCCESS_MESSAGE);
                         },
                         e -> {
                             e.printStackTrace();
-                            getView().showMessage(ADD_ERROR_MESSAGE);
+                            showMessageInView(ADD_ERROR_MESSAGE);
                         });
     }
 
@@ -40,27 +42,39 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     public void deleteCategory(int position) {
         repository.deleteCategory(position)
                 .subscribe(categories -> {
-                    getView().showCategories(categories);
-                    getView().showMessage(DELETE_SUCCESS_MESSAGE);
+                    updateView(categories);
+                    showMessageInView(DELETE_SUCCESS_MESSAGE);
                 },
                 e -> {
                     e.printStackTrace();
-                    getView().showMessage(DELETE_ERROR_MESSAGE);
+                    showMessageInView(DELETE_ERROR_MESSAGE);
                 });
     }
 
     @Override
     public void getCategories() {
         repository.getCategoryList()
-                .subscribe(categories -> getView().showCategories(categories),
+                .subscribe(categories -> updateView(categories),
                         e -> {
                             e.printStackTrace();
-                            getView().showMessage(LIST_ERROR_MESSAGE);
+                            showMessageInView(LIST_ERROR_MESSAGE);
                         });
     }
 
     @Override
     public void onStop() {
         super.detachView();
+    }
+
+    public void showMessageInView(String message){
+        getView().showMessage(message);
+    }
+
+    public void updateView(List<Category> categoryList){
+        if(categoryList.isEmpty()){
+            getView().showEmptyScreen();
+        }else{
+            getView().showCategories(categoryList);
+        }
     }
 }
