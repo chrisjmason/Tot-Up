@@ -1,5 +1,6 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
+import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.OverviewRepository;
@@ -36,7 +37,7 @@ public class OverviewRepositoryTest {
 
     @Test
     public void getCategoryList_Success(){
-        List<Category> categoryList = getFakeList();
+        List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         when(database.getCategoryList()).thenReturn(categoryList);
 
         TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
@@ -52,7 +53,7 @@ public class OverviewRepositoryTest {
 
     @Test
     public void addCategory_Success(){
-        List<Category> categoryList = getFakeList();
+        List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         Category categoryToAdd = new Category("test3",DateUtil.getDate());
 
         when(database.addCategory(categoryToAdd)).thenReturn(categoryList.add(categoryToAdd));
@@ -73,7 +74,7 @@ public class OverviewRepositoryTest {
 
     @Test
     public void deleteCategory_Success(){
-        List<Category> categoryList = getFakeList();
+        List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         int positionToDelete = 1;
         Category categoryToDelete = categoryList.get(positionToDelete);
 
@@ -95,7 +96,7 @@ public class OverviewRepositoryTest {
 
     @Test
     public void getCategory_Success(){
-        List<Category> categoryList = getFakeList();
+        List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         int positionToGet = 1;
 
         when(database.getCategory(positionToGet)).thenReturn(categoryList.get(positionToGet));
@@ -110,12 +111,5 @@ public class OverviewRepositoryTest {
         verifyNoMoreInteractions(database);
 
         testSubscriber.assertValue(categoryList.get(positionToGet));
-    }
-
-    public List<Category> getFakeList(){
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("test1", DateUtil.getDate()));
-        categoryList.add(new Category("test2", DateUtil.getDate()));
-        return categoryList;
     }
 }
