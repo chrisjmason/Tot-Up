@@ -1,5 +1,6 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
+import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
@@ -32,7 +33,7 @@ public class CategoryOverviewPresenterTest {
 
     CategoryOverviewPresenter presenter;
 
-    Observable<List<Category>> obsSuccess = Observable.just(getFakeList())
+    Observable<List<Category>> obsSuccess = Observable.just(FakeListHelper.getFakeCategoryList())
             .subscribeOn(Schedulers.immediate());
     Observable<List<Category>> obsSuccessEmpty = Observable.just(new ArrayList<>());
     Observable<List<Category>> obsError = Observable.error(new IOException());
@@ -105,10 +106,5 @@ public class CategoryOverviewPresenterTest {
     }
 
 
-    public List<Category> getFakeList(){
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("test1", DateUtil.getDate()));
-        categoryList.add(new Category("test2", DateUtil.getDate()));
-        return categoryList;
-    }
+
 }
