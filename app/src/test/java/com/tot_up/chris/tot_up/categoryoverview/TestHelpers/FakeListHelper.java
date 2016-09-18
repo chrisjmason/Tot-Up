@@ -20,9 +20,9 @@ public class FakeListHelper {
 
     public static List<Expense> getFakeExpenseList(){
         List<Expense> expenseList = new ArrayList<>();
-        expenseList.add(new Expense("2.30", DateUtil.getDate()));
-        expenseList.add(new Expense("1.60", DateUtil.getDate()));
-        expenseList.add(new Expense("3.55", DateUtil.getDate()));
+        expenseList.add(new Expense("2.30", DateUtil.getDate(), "Test"));
+        expenseList.add(new Expense("1.60", DateUtil.getDate(), "Test"));
+        expenseList.add(new Expense("3.55", DateUtil.getDate(), "Test"));
         return expenseList;
     }
 

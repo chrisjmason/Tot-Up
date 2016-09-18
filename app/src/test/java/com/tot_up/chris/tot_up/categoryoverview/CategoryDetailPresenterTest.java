@@ -5,6 +5,7 @@ import com.tot_up.chris.tot_up.categorydetail.CategoryDetailPresenter;
 import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetailRepositoryInterface;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
@@ -30,11 +31,13 @@ public class CategoryDetailPresenterTest {
     CategoryDetailInterface.View view;
 
     CategoryDetailInterface.Presenter presenter;
+    private Expense expenseToAdd;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         presenter = new CategoryDetailPresenter(view, repository);
+        expenseToAdd = new Expense("3.40", DateUtil.getDate(),FOOD);
     }
 
     @Test
@@ -64,6 +67,42 @@ public class CategoryDetailPresenterTest {
         presenter.getExpenses(FOOD);
 
         verify(view).showEmpty();
+    }
+
+    @Test
+    public void addExpense_Success(){
+        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(true));
+
+        presenter.addExpense(expenseToAdd);
+
+        verify(view).showMessage();
+    }
+
+    @Test
+    public void addExpense_Failure(){
+        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(false));
+
+        presenter.addExpense(expenseToAdd);
+
+        verify(view).showError();
+    }
+    
+    @Test
+    public void addExpense_Error(){
+        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.error(new IOException()));
+
+        presenter.addExpense(expenseToAdd);
+
+        verify(view).showError();
+    }
+
+    @Test
+    public void expenseAddedViewUpdated_Success(){
+        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(true));
+
+        presenter.addExpense(expenseToAdd);
+
+        verify(repository).getExpenses(expenseToAdd.getCategoryName());
     }
 
 }

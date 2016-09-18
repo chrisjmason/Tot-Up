@@ -15,6 +15,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class FakeDbTest {
 
+    Expense expenseToAdd = new Expense("2.30", DateUtil.getDate(),"Food");
+
     @Test
     public void getCategoryList_emptyListReturned(){
         DbInterface fakeDb = FakeDb.getFreshInstance();
@@ -49,7 +51,6 @@ public class FakeDbTest {
     public void addExpenseToCategory_expenseAdded(){
         DbInterface fakeDb = FakeDb.getFreshInstance();
         Category categoryToAdd = new Category("Food", DateUtil.getDate());
-        Expense expenseToAdd = new Expense("2.30", DateUtil.getDate());
 
         fakeDb.addCategory(categoryToAdd);
         fakeDb.addExpense(categoryToAdd.getName(), expenseToAdd);
@@ -62,7 +63,6 @@ public class FakeDbTest {
     public void deleteExpenseInCategory_checkDeleted(){
         DbInterface fakeDb = FakeDb.getFreshInstance();
         Category categoryToAdd = new Category("Food", DateUtil.getDate());
-        Expense expenseToAdd = new Expense("2.30", DateUtil.getDate());
 
         fakeDb.addCategory(categoryToAdd);
         fakeDb.addExpense(categoryToAdd.getName(), expenseToAdd);

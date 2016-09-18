@@ -109,7 +109,6 @@ public class OverviewRepositoryTest {
 
         verify(database).getCategory(positionToGet);
         verifyNoMoreInteractions(database);
-
         testSubscriber.assertValue(categoryList.get(positionToGet));
     }
 }
