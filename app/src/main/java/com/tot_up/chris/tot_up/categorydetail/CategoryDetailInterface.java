@@ -13,6 +13,8 @@ public interface CategoryDetailInterface {
 
         void showError();
 
+        void showMessage(String message);
+
         void showEmpty();
 
     }
@@ -20,6 +22,10 @@ public interface CategoryDetailInterface {
     interface Presenter{
 
         void getExpenses(String categoryName);
+
+        void addExpense(Expense expense);
+
+        void deleteExpense(int position, String categoryName);
 
     }
 }

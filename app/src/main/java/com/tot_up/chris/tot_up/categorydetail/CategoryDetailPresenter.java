@@ -33,4 +33,35 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
                 getView().showError();
             });
     }
+
+    @Override
+    public void addExpense(Expense expense) {
+        Observable<Boolean> addExpenseObs = repository.addExpense(expense);
+
+        addExpenseObs.subscribe(added -> updateView(added, expense.getCategoryName()),
+                e -> {
+                    e.printStackTrace();
+                    updateView(false, expense.getCategoryName());
+                });
+    }
+
+    @Override
+    public void deleteExpense(int position, String categoryName) {
+        Observable<Boolean> deleteExpenseObs= repository.deleteExpense(position, categoryName);
+
+        deleteExpenseObs.subscribe(deleted -> updateView(deleted, categoryName),
+                e -> {
+                    e.printStackTrace();
+                    updateView(false, categoryName);
+                });
+    }
+
+    private void updateView(Boolean success, String category){
+        if(success) {
+            getView().showMessage("Success");
+            getExpenses(category);
+        }else{
+            getView().showError();
+        }
+    }
 }
