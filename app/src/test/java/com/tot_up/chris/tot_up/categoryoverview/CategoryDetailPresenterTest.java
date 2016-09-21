@@ -8,6 +8,7 @@ import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetai
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
@@ -24,13 +26,14 @@ import rx.Observable;
 public class CategoryDetailPresenterTest {
 
     public static final String FOOD = "Food";
+    public static final int POSITION = 1;
 
     @Mock
     CategoryDetailRepositoryInterface repository;
     @Mock
     CategoryDetailInterface.View view;
 
-    CategoryDetailInterface.Presenter presenter;
+    private CategoryDetailInterface.Presenter presenter;
     private Expense expenseToAdd;
 
     @Before
@@ -43,66 +46,125 @@ public class CategoryDetailPresenterTest {
     @Test
     public void getExpenseList_Success(){
         List<Expense> expenseList = FakeListHelper.getFakeExpenseList();
-        when(repository.getExpenses(FOOD)).thenReturn(Observable.just(expenseList));
+        mockGetExpensesRepositoryResponse(Observable.just(expenseList));
 
-        presenter.getExpenses(FOOD);
+        presenterGetExpenses();
 
-        verify(view).showExpenses(expenseList);
+        verifyViewShowExpenses(expenseList);
     }
 
     @Test
     public void getExpenseList_Failure(){
-        when(repository.getExpenses(FOOD)).thenReturn(Observable.error(new IOException()));
+        mockGetExpensesRepositoryResponse(Observable.error(new IOException()));
 
-        presenter.getExpenses(FOOD);
+        presenterGetExpenses();
 
-        verify(view).showError();
+        verifyViewShowError();
     }
 
 
     @Test
     public void getEmptyExpenseList_Success(){
-        when(repository.getExpenses(FOOD)).thenReturn(Observable.just(FakeListHelper.getEmptyList()));
+        mockGetExpensesRepositoryResponse(Observable.just(Collections.emptyList()));
 
-        presenter.getExpenses(FOOD);
+        presenterGetExpenses();
 
         verify(view).showEmpty();
     }
 
     @Test
     public void addExpense_Success(){
-        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(true));
+        mockAddExpenseRepositoryResponse(Observable.just(true));
 
-        presenter.addExpense(expenseToAdd);
+        presenterAddExpense();
 
-        verify(view).showMessage();
+        verify(view).showMessage(anyString());
     }
 
     @Test
     public void addExpense_Failure(){
-        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(false));
+        mockAddExpenseRepositoryResponse(Observable.just(false));
 
-        presenter.addExpense(expenseToAdd);
+        presenterAddExpense();
 
-        verify(view).showError();
+        verifyViewShowError();
     }
     
     @Test
     public void addExpense_Error(){
-        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.error(new IOException()));
+        mockAddExpenseRepositoryResponse(Observable.error(new IOException()));
 
-        presenter.addExpense(expenseToAdd);
+        presenterAddExpense();
 
-        verify(view).showError();
+        verifyViewShowError();
     }
 
     @Test
-    public void expenseAddedViewUpdated_Success(){
-        when(repository.addExpense(expenseToAdd)).thenReturn(Observable.just(true));
+    public void addExpenseViewUpdated_Success(){
+        mockAddExpenseRepositoryResponse(Observable.just(true));
 
-        presenter.addExpense(expenseToAdd);
+        presenterAddExpense();
 
         verify(repository).getExpenses(expenseToAdd.getCategoryName());
+    }
+
+    @Test
+    public void deleteExpense_Failure(){
+        mockDeleteExpenseRepositoryResponse(Observable.just(false));
+
+        presenterDeleteExpense(POSITION);
+
+        verifyViewShowError();
+    }
+
+    @Test
+    public void deleteExpense_Error(){
+        mockDeleteExpenseRepositoryResponse(Observable.error(new IOException()));
+
+        presenterDeleteExpense(POSITION);
+
+        verifyViewShowError();
+    }
+
+    @Test
+    public void deleteExpenseViewUpdated_Success(){
+        mockDeleteExpenseRepositoryResponse(Observable.just(true));
+
+        presenterDeleteExpense(POSITION);
+
+        verify(repository).getExpenses(FOOD);
+    }
+
+    private void mockGetExpensesRepositoryResponse(Observable observableResponse) {
+        when(repository.getExpenses(FOOD)).thenReturn(observableResponse);
+    }
+
+    private void mockAddExpenseRepositoryResponse(Observable observableResponse) {
+        when(repository.addExpense(expenseToAdd)).thenReturn(observableResponse);
+    }
+
+    private void mockDeleteExpenseRepositoryResponse(Observable observableResponse){
+        when(repository.deleteExpense(POSITION, FOOD)).thenReturn(observableResponse);
+    }
+
+    private void verifyViewShowExpenses(List<Expense> expenseList) {
+        verify(view).showExpenses(expenseList);
+    }
+
+    private void presenterGetExpenses() {
+        presenter.getExpenses(FOOD);
+    }
+
+    private void presenterAddExpense() {
+        presenter.addExpense(expenseToAdd);
+    }
+
+    private void presenterDeleteExpense(int position) {
+        presenter.deleteExpense(position, FOOD);
+    }
+
+    private void verifyViewShowError() {
+        verify(view).showError();
     }
 
 }
