@@ -1,4 +1,4 @@
-package com.tot_up.chris.tot_up.data.repos;
+package com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository;
 
 import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
@@ -8,19 +8,15 @@ import java.util.List;
 import rx.Observable;
 import rx.Scheduler;
 
-public class OverviewRepository implements OverviewRepositoryInterface {
+public class CategoryOverviewRepository implements CategoryOverviewRepositoryInterface {
     private DbInterface database;
     private Scheduler workScheduler;
     private Scheduler uiScheduler;
 
-    public OverviewRepository(DbInterface database){
-        this.database = database;
-    }
-
-    @Override
-    public void setSchedulers(Scheduler workThread, Scheduler uiThread){
+    public CategoryOverviewRepository(DbInterface database, Scheduler workThread, Scheduler uiThread){
         this.workScheduler = workThread;
         this.uiScheduler = uiThread;
+        this.database = database;
     }
 
     @Override
