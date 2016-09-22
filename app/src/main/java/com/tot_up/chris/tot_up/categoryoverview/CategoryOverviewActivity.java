@@ -13,23 +13,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bowyer.app.fabtoolbar.FabToolbar;
+import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
-import com.tot_up.chris.tot_up.data.db.FakeDb;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.OverviewRepository;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.List;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class CategoryOverviewActivity extends AppCompatActivity implements CategoryOverviewInterface.View{
 
@@ -83,12 +77,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     }
 
     private void setUpPresenter(){
-        //move repository initialisation to injector class
-        OverviewRepository repository = new OverviewRepository(FakeDb.getInstance());
-        repository.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread());
-
-        presenter = new CategoryOverviewPresenter(this,repository);
-
+        presenter = new CategoryOverviewPresenter(this, Injection.provideCategoryOverviewRepository());
     }
 
     private CategoryOverviewAdapter setUpAdapter(){

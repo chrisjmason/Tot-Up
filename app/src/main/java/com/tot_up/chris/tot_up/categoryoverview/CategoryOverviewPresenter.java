@@ -2,12 +2,9 @@ package com.tot_up.chris.tot_up.categoryoverview;
 
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
+import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepositoryInterface;
 
 import java.util.List;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInterface.View> implements CategoryOverviewInterface.Presenter {
 
@@ -18,9 +15,9 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     public static final String DELETE_ERROR_MESSAGE = "Error deleting category";
     public static final String LIST_ERROR_MESSAGE = "Error retrieving categories";
 
-    private OverviewRepositoryInterface repository;
+    private CategoryOverviewRepositoryInterface repository;
 
-    public CategoryOverviewPresenter(CategoryOverviewInterface.View view, OverviewRepositoryInterface repository){
+    public CategoryOverviewPresenter(CategoryOverviewInterface.View view, CategoryOverviewRepositoryInterface repository){
         super.attachView(view);
         this.repository = repository;
     }
@@ -66,11 +63,11 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
         super.detachView();
     }
 
-    public void showMessageInView(String message){
+    private void showMessageInView(String message){
         getView().showMessage(message);
     }
 
-    public void updateView(List<Category> categoryList){
+    private void updateView(List<Category> categoryList){
         if(categoryList.isEmpty()){
             getView().showEmptyScreen();
         }else{
