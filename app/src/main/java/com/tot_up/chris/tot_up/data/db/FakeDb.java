@@ -19,7 +19,7 @@ public class FakeDb implements DbInterface {
 
     private FakeDb(){
         categoryList = new ArrayList<>();
-         expenseMap = new HashMap<>();
+        expenseMap = new HashMap<>();
     }
 
     public static FakeDb getInstance(){
@@ -41,7 +41,7 @@ public class FakeDb implements DbInterface {
 
     @Override
     public boolean addCategory(Category category) {
-         expenseMap.put(category.getName(), new ArrayList<>());
+        expenseMap.put(category.getName(), new ArrayList<>());
         return categoryList.add(category);
     }
 
