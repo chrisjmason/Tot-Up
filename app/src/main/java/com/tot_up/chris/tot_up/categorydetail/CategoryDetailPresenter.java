@@ -56,6 +56,11 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
                 });
     }
 
+    @Override
+    public void goToDetail(Expense expense) {
+        getView().goToDetail(expense);
+    }
+
     private void updateView(Boolean success, String category){
         if(success) {
             getView().showMessage("Success");

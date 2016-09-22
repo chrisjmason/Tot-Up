@@ -17,6 +17,8 @@ public interface CategoryDetailInterface {
 
         void showEmpty();
 
+        void goToDetail(Expense expense);
+
     }
 
     interface Presenter{
@@ -26,6 +28,8 @@ public interface CategoryDetailInterface {
         void addExpense(Expense expense);
 
         void deleteExpense(int position, String categoryName);
+
+        void goToDetail(Expense expense);
 
     }
 }
