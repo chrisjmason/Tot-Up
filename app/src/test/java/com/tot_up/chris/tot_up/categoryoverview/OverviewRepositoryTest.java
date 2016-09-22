@@ -3,8 +3,8 @@ package com.tot_up.chris.tot_up.categoryoverview;
 import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.OverviewRepository;
-import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
+import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepository;
+import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import org.junit.Before;
@@ -16,7 +16,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.observers.TestSubscriber;
@@ -26,13 +25,12 @@ public class OverviewRepositoryTest {
     @Mock
     DbInterface database;
 
-    OverviewRepositoryInterface repository;
+    CategoryOverviewRepositoryInterface repository;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        repository = new OverviewRepository(database);
-        repository.setSchedulers(Schedulers.immediate(),Schedulers.immediate());
+        repository = new CategoryOverviewRepository(database, Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Test
@@ -40,9 +38,7 @@ public class OverviewRepositoryTest {
         List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
-
-        testSubscriber.assertNoErrors();
+        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
 
         repository.getCategoryList()
                 .subscribe(testSubscriber);
@@ -50,6 +46,8 @@ public class OverviewRepositoryTest {
         verify(database).getCategoryList();
         testSubscriber.assertValue(categoryList);
     }
+
+
 
     @Test
     public void addCategory_Success(){
@@ -59,8 +57,7 @@ public class OverviewRepositoryTest {
         when(database.addCategory(categoryToAdd)).thenReturn(categoryList.add(categoryToAdd));
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
-        testSubscriber.assertNoErrors();
+        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
 
         repository.addCategory(categoryToAdd)
                 .subscribe(testSubscriber);
@@ -81,8 +78,7 @@ public class OverviewRepositoryTest {
         when(database.deleteCategory(positionToDelete)).thenReturn(categoryList.remove(categoryToDelete));
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
-        testSubscriber.assertNoErrors();
+        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
 
         repository.deleteCategory(positionToDelete)
                 .subscribe(testSubscriber);
@@ -98,8 +94,9 @@ public class OverviewRepositoryTest {
     public void getCategory_Success(){
         List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         int positionToGet = 1;
+        Category categoryReceived = categoryList.get(positionToGet);
 
-        when(database.getCategory(positionToGet)).thenReturn(categoryList.get(positionToGet));
+        when(database.getCategory(positionToGet)).thenReturn(categoryReceived);
 
         TestSubscriber<Category> testSubscriber = new TestSubscriber<>();
         testSubscriber.assertNoErrors();
@@ -109,6 +106,12 @@ public class OverviewRepositoryTest {
 
         verify(database).getCategory(positionToGet);
         verifyNoMoreInteractions(database);
-        testSubscriber.assertValue(categoryList.get(positionToGet));
+        testSubscriber.assertValue(categoryReceived);
+    }
+
+    private TestSubscriber<List<Category>> getListTestSubscriber() {
+        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
+        testSubscriber.assertNoErrors();
+        return testSubscriber;
     }
 }

@@ -135,6 +135,13 @@ public class CategoryDetailPresenterTest {
         verify(repository).getExpenses(FOOD);
     }
 
+    @Test
+    public void goToExpenseDetail_Success(){
+        presenter.goToDetail(expenseToAdd);
+
+        verify(view).goToDetail(expenseToAdd);
+    }
+
     private void mockGetExpensesRepositoryResponse(Observable observableResponse) {
         when(repository.getExpenses(FOOD)).thenReturn(observableResponse);
     }
@@ -151,6 +158,10 @@ public class CategoryDetailPresenterTest {
         verify(view).showExpenses(expenseList);
     }
 
+    private void verifyViewShowError() {
+        verify(view).showError();
+    }
+
     private void presenterGetExpenses() {
         presenter.getExpenses(FOOD);
     }
@@ -163,8 +174,6 @@ public class CategoryDetailPresenterTest {
         presenter.deleteExpense(position, FOOD);
     }
 
-    private void verifyViewShowError() {
-        verify(view).showError();
-    }
+
 
 }

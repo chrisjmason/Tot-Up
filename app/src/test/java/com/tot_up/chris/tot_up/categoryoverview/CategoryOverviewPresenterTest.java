@@ -2,7 +2,7 @@ package com.tot_up.chris.tot_up.categoryoverview;
 
 import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.data.repos.OverviewRepositoryInterface;
+import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class CategoryOverviewPresenterTest {
     CategoryOverviewInterface.View view;
 
     @Mock
-    OverviewRepositoryInterface repository;
+    CategoryOverviewRepositoryInterface repository;
 
     CategoryOverviewPresenter presenter;
 
@@ -44,7 +44,6 @@ public class CategoryOverviewPresenterTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        repository.setSchedulers(Schedulers.immediate(), Schedulers.immediate());
         presenter = new CategoryOverviewPresenter(view,repository);
     }
 
