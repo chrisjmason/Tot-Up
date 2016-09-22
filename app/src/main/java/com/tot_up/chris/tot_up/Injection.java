@@ -27,7 +27,7 @@ public class Injection {
     }
 
     public static CategoryDetailRepositoryInterface provideCategoryDetailRepository(){
-        return new CategoryDetailRepository(provideDb());
+        return new CategoryDetailRepository(provideDb(), workThread, uiThread);
     }
 
     private static DbInterface provideDb(){

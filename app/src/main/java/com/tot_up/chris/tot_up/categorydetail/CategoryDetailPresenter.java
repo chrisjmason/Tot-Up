@@ -19,7 +19,7 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
 
     @Override
     public void getExpenses(String categoryName) {
-        Observable<List<Expense>> getExpenseObs = repository.getExpenses(categoryName);
+        Observable<List<Expense>> getExpenseObs = repository.getExpenseList(categoryName);
 
         getExpenseObs.subscribe(expenseList ->{
                 if(expenseList.isEmpty()){
@@ -36,7 +36,7 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
 
     @Override
     public void addExpense(Expense expense) {
-        Observable<Boolean> addExpenseObs = repository.addExpense(expense);
+        Observable<Boolean> addExpenseObs = repository.addExpense(expense.getCategoryName(),expense);
 
         addExpenseObs.subscribe(added -> updateView(added, expense.getCategoryName()),
                 e -> {
@@ -47,7 +47,7 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
 
     @Override
     public void deleteExpense(int position, String categoryName) {
-        Observable<Boolean> deleteExpenseObs= repository.deleteExpense(position, categoryName);
+        Observable<Boolean> deleteExpenseObs= repository.deleteExpense(categoryName, position);
 
         deleteExpenseObs.subscribe(deleted -> updateView(deleted, categoryName),
                 e -> {

@@ -6,14 +6,16 @@ public class Expense {
     private BigDecimal decimalPrice;
     private String date;
     private String imageSrc;
+    private String categoryName;
 
-    public Expense(String price, String date){
-        new Expense(price, date, null);
+    public Expense(String price, String date, String categoryName){
+        new Expense(price, date, categoryName, null);
     }
 
-    public Expense(String price, String date, String imageSrc){
+    public Expense(String price, String date, String categoryName, String imageSrc){
         decimalPrice = new BigDecimal(price);
         this.date = date;
+        this.categoryName = categoryName;
         this.imageSrc = imageSrc;
     }
 
@@ -27,5 +29,9 @@ public class Expense {
 
     public String getImageSrc() {
         return imageSrc;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }

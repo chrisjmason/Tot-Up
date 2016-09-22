@@ -56,19 +56,24 @@ public class FakeDb implements DbInterface {
     }
 
     @Override
-    public List<Expense> getExpenses(String categoryName) {
+    public List<Expense> getExpenseList(String categoryName) {
         return  expenseMap.get(categoryName);
     }
 
     @Override
-    public void addExpense(String categoryName, Expense expense) {
-         expenseMap.get(categoryName).add(expense);
+    public boolean addExpense(String categoryName, Expense expense) {
+         return expenseMap.get(categoryName).add(expense);
     }
 
     @Override
-    public void deleteExpense(String categoryName, int position) {
+    public boolean deleteExpense(String categoryName, int position) {
         List<Expense> expenseList =  expenseMap.get(categoryName);
         Expense expense =  expenseList.get(position);
-        expenseMap.get(categoryName).remove(expense);
+        return expenseMap.get(categoryName).remove(expense);
+    }
+
+    @Override
+    public Expense getExpense(String categoryName, int position) {
+        return null;
     }
 }

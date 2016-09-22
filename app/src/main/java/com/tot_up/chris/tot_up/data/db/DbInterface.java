@@ -15,10 +15,12 @@ public interface DbInterface {
 
     Category getCategory(int position);
 
-    List<Expense> getExpenses(String categoryName);
+    List<Expense> getExpenseList(String categoryName);
 
-    void addExpense(String categoryName, Expense expense);
+    boolean addExpense(String categoryName, Expense expense);
 
-    void deleteExpense(String categoryName, int Position);
+    boolean deleteExpense(String categoryName, int position);
+
+    Expense getExpense(String categoryName, int position);
 
 }
