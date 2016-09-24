@@ -1,18 +1,22 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tot_up.chris.tot_up.R;
+import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.function.IntBinaryOperator;
 
 public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOverviewAdapter.ViewHolder> {
 
@@ -45,6 +49,11 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
         categoryDate.setText(categoryList
                 .get(position)
                 .getDate());
+
+        cardView.setOnClickListener((v) -> {
+            Intent intent = new Intent(context, CategoryDetailActivity.class);
+            context.startActivity(intent);
+        });
     }
 
     @Override

@@ -43,7 +43,7 @@ public class FakeDbTest {
         Category categoryToAdd = new Category("Food", DateUtil.getDate());
         fakeDb.addCategory(categoryToAdd);
 
-        List<Expense> receivedList = fakeDb.getExpenses(categoryToAdd.getName());
+        List<Expense> receivedList = fakeDb.getExpenseList(categoryToAdd.getName());
         assertThat("Expense List is empty", receivedList.isEmpty());
     }
 
@@ -54,7 +54,7 @@ public class FakeDbTest {
 
         fakeDb.addCategory(categoryToAdd);
         fakeDb.addExpense(categoryToAdd.getName(), expenseToAdd);
-        List<Expense> listReceived = fakeDb.getExpenses(categoryToAdd.getName());
+        List<Expense> listReceived = fakeDb.getExpenseList(categoryToAdd.getName());
 
         assertThat("Expense is added", listReceived.contains(expenseToAdd));
     }
@@ -67,7 +67,7 @@ public class FakeDbTest {
         fakeDb.addCategory(categoryToAdd);
         fakeDb.addExpense(categoryToAdd.getName(), expenseToAdd);
         fakeDb.deleteExpense(categoryToAdd.getName(), 0);
-        List<Expense> listReceived = fakeDb.getExpenses(categoryToAdd.getName());
+        List<Expense> listReceived = fakeDb.getExpenseList(categoryToAdd.getName());
 
         assertThat("Expense has been deleted", !listReceived.contains(expenseToAdd));
     }

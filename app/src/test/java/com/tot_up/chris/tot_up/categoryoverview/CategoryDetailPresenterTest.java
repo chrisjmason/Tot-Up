@@ -7,7 +7,6 @@ import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetailRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -105,7 +104,7 @@ public class CategoryDetailPresenterTest {
 
         presenterAddExpense();
 
-        verify(repository).getExpenses(expenseToAdd.getCategoryName());
+        verify(repository).getExpenseList(expenseToAdd.getCategoryName());
     }
 
     @Test
@@ -132,7 +131,7 @@ public class CategoryDetailPresenterTest {
 
         presenterDeleteExpense(POSITION);
 
-        verify(repository).getExpenses(FOOD);
+        verify(repository).getExpenseList(FOOD);
     }
 
     @Test
@@ -143,15 +142,15 @@ public class CategoryDetailPresenterTest {
     }
 
     private void mockGetExpensesRepositoryResponse(Observable observableResponse) {
-        when(repository.getExpenses(FOOD)).thenReturn(observableResponse);
+        when(repository.getExpenseList(FOOD)).thenReturn(observableResponse);
     }
 
     private void mockAddExpenseRepositoryResponse(Observable observableResponse) {
-        when(repository.addExpense(expenseToAdd)).thenReturn(observableResponse);
+        when(repository.addExpense(expenseToAdd.getCategoryName(),expenseToAdd)).thenReturn(observableResponse);
     }
 
     private void mockDeleteExpenseRepositoryResponse(Observable observableResponse){
-        when(repository.deleteExpense(POSITION, FOOD)).thenReturn(observableResponse);
+        when(repository.deleteExpense(FOOD, POSITION)).thenReturn(observableResponse);
     }
 
     private void verifyViewShowExpenses(List<Expense> expenseList) {
