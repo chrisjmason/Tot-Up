@@ -15,6 +15,8 @@ public interface CategoryOverviewInterface {
 
         void showMessage(String error);
 
+        void goToDetail(String categoryName);
+
     }
 
     interface Presenter extends MvpInterface.Presenter<View>{
@@ -24,6 +26,8 @@ public interface CategoryOverviewInterface {
         void deleteCategory(int position);
 
         void getCategories();
+
+        void goToDetail(Category category);
 
         void onStop();
 

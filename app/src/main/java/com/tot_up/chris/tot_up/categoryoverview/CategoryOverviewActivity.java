@@ -1,6 +1,7 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
+import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
@@ -26,6 +28,7 @@ import com.tot_up.chris.tot_up.util.DateUtil;
 import java.util.List;
 
 public class CategoryOverviewActivity extends AppCompatActivity implements CategoryOverviewInterface.View{
+    public static final String CATEGORY_NAME = "category";
 
     RecyclerView recyclerView;
     FloatingActionButton openToolbarFab;
@@ -74,6 +77,13 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     @Override
     public void showEmptyScreen() {
 
+    }
+
+    @Override
+    public void goToDetail(String categoryName) {
+        Intent intent = new Intent(this, CategoryDetailActivity.class);
+        intent.putExtra(CATEGORY_NAME, categoryName);
+        startActivity(intent);
     }
 
     private void setUpPresenter(){

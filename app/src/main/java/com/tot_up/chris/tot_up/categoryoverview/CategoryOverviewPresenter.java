@@ -59,8 +59,13 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     }
 
     @Override
+    public void goToDetail(Category category) {
+        getView().goToDetail(category.getName());
+    }
+
+    @Override
     public void onStop() {
-        super.detachView();
+
     }
 
     private void showMessageInView(String message){

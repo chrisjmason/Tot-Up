@@ -41,19 +41,15 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
         CardView cardView = holder.cardView;
         TextView categoryTitle = (TextView) cardView.findViewById(R.id.text_category_name);
         TextView categoryDate = (TextView) cardView.findViewById(R.id.date_text);
+        Category category = categoryList.get(position);
 
-        categoryTitle.setText(categoryList
-                .get(position)
+        categoryTitle.setText(category
                 .getName());
 
-        categoryDate.setText(categoryList
-                .get(position)
+        categoryDate.setText(category
                 .getDate());
 
-        cardView.setOnClickListener((v) -> {
-            Intent intent = new Intent(context, CategoryDetailActivity.class);
-            context.startActivity(intent);
-        });
+        cardView.setOnClickListener((v) -> presenter.goToDetail(category));
     }
 
     @Override
@@ -76,7 +72,5 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
             super(cv);
             cardView = cv;
         }
-
-
     }
 }
