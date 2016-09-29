@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -102,6 +103,12 @@ public class CategoryOverviewPresenterTest {
         when(repository.getCategoryList()).thenReturn(obsSuccessEmpty);
         presenter.getCategories();
         verify(view).showEmptyScreen();
+    }
+
+    @Test
+    public void goToDetail_Success(){
+        presenter.goToDetail(category);
+        verify(view).goToDetail(category.getName());
     }
 
 
