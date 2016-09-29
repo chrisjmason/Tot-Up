@@ -28,11 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,29 +46,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                app:tb_color="@color/colorLilac"
                 app:tb_container_gravity="center"
                 app:tb_anim_duration="400"
-                app:tb_fab_type="normal">
+                app:tb_fab_type="normal"
+                app:tb_color="@android:color/transparent">
 
-                <EditText
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:hint="@string/add_category_edittext"
-                    android:id="@+id/new_category_name"
-                    android:drawableTint="@color/colorGreen" />
+                <RelativeLayout
+                    android:id="@+id/inner_fabtoolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_corner">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_add_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/small_margin"
-                    android:elevation="6dp"
-                    app:layout_anchor="@id/fabtoolbar_category"
-                    app:layout_anchorGravity="bottom|right|end"/>
+                    <EditText
+                        android:layout_width="240dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:hint="@string/add_category_edittext"
+                        android:id="@+id/new_category_name"
+                        android:drawableTint="@color/colorGreen"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp" />
 
-                <!--add your original layout-->
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab_add_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="6dp"
+                        app:layout_anchor="@id/new_category_name"
+                        app:layout_anchorGravity="bottom|right|end"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:layout_marginRight="@dimen/very_small_margin"
+                        android:layout_marginBottom="@dimen/very_small_margin"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+
 
             </com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar>
         </android.support.design.widget.CoordinatorLayout>
