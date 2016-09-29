@@ -1,19 +1,26 @@
 package com.tot_up.chris.tot_up.categorydetail;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 import com.tot_up.chris.tot_up.data.model.Expense;
+import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 
 import org.w3c.dom.Text;
 
@@ -24,6 +31,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private CategoryDetailInterface.Presenter presenter;
     private TextView monthPriceText;
     private TextView weekPriceText;
+    private FloatingActionButton openToolbarFab;
+    CustomFabToolbar fabToolbar;
     String categoryName;
 
     @Override
@@ -71,6 +80,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpToolbar();
         setUpCollapsingToolbar();
         setUpCollapsingLayout();
+        setUpOpenToolbarFab();
+        setUpFabToolbar();
     }
 
     private CategoryDetailAdapter setUpAdapter(){
@@ -102,11 +113,37 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         monthPriceText = (TextView) findViewById(R.id.month_price_text);
         weekPriceText = (TextView) findViewById(R.id.week_price_text);
 
+        //Change this to update from presenter with actual totals
         monthPriceText.setText("20.30");
         weekPriceText.setText("4.50");
     }
 
+    private void setUpFabToolbar(){
+        fabToolbar = (CustomFabToolbar) findViewById(R.id.fabtoolbar_expense);
+        RelativeLayout innerLayout = (RelativeLayout) findViewById(R.id.inner_fabtoolbar_expense);
+        fabToolbar.setFab(openToolbarFab);
+
+        innerLayout.setOnClickListener(v -> {
+            fabToolbar.contractFab();
+            closeKeyboard();
+        });
+    }
+
+    private void setUpOpenToolbarFab(){
+        openToolbarFab = (FloatingActionButton) findViewById(R.id.fab_open_toolbar_expense);
+        openToolbarFab.setOnClickListener(v -> {
+            openToolbarFab.setVisibility(View.INVISIBLE);
+            fabToolbar.expandFab();
+        });
+    }
+
     private void getExpenses(){
         presenter.getExpenses(categoryName);
+    }
+
+    private void closeKeyboard(){
+        View view = this.getCurrentFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

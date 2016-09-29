@@ -3,6 +3,7 @@ package com.tot_up.chris.tot_up.categorydetail;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -44,6 +45,8 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
         expensePrice.setText(expense.getDecimalPrice().toString());
         expenseDate.setText(expense.getDate());
+
+        Log.d("Image src", expense.getImageSrc());
 
         Glide.with(context)
                 .load(expense.getImageSrc())
