@@ -101,7 +101,7 @@ public class CustomFabToolbar extends FrameLayout {
             a.recycle();
         }
 
-        mFabExpandLayout.setGravity(getGravity(containerGravity));
+        mFabExpandLayout.setGravity(Gravity.END);
     }
 
     public void setFab(ImageView imageView) {
