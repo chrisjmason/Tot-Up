@@ -40,7 +40,7 @@ public class ImageFileUtil {
                 throw new IOException();
             }
         }else{
-            Log.d("Make image dir", "dir already exists");
+            Log.d("Make image dir", "dir already exists: "+totUpDir.getAbsolutePath());
         }
     }
 }

@@ -32,6 +32,16 @@
                 android:background="@color/colorLilac">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:id="@+id/week_text"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="Week"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/week_price_text" />
+
+                <TextView
                     android:id="@+id/week_price_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,16 +52,6 @@
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:id="@+id/week_text"
-                    android:textColor="@color/cardview_dark_background"
-                    android:text="Week"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/week_price_text" />
 
                 <TextView
                     android:layout_width="wrap_content"

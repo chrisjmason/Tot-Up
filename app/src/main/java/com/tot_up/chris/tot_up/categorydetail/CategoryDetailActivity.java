@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -67,6 +68,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
             String expenseCost = expenseCostText.getText().toString();
             Expense expenseToAdd = new Expense(expenseCost, DateUtil.getDate(), categoryName, imagePath);
             presenter.addExpense(expenseToAdd);
+            expenseCostText.setText("");
         }
     }
 
@@ -182,7 +184,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
             takePhoto();
             closeKeyboard();
             fabToolbar.contractFab();
-            expenseCostText.setText("");
         });
     }
 
