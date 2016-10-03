@@ -21,12 +21,13 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:elevation="3dp"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorLilac"/>
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/category_coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -44,18 +45,20 @@
             <com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar
                 android:id="@+id/fabtoolbar_category"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 app:tb_container_gravity="center"
                 app:tb_anim_duration="400"
                 app:tb_fab_type="normal"
-                app:tb_color="@android:color/transparent">
+                app:tb_color="@color/transparent">
 
                 <RelativeLayout
                     android:id="@+id/inner_fabtoolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rounded_corner">
+                    android:layout_height="200dp"
+                    android:background="@drawable/rounded_corner"
+                    android:layout_marginLeft="@dimen/large_margin"
+                    android:elevation="6dp">
 
                     <EditText
                         android:layout_width="240dp"

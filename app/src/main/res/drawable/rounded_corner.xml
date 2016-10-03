@@ -7,6 +7,10 @@
         android:color="@color/colorLilac" >
     </solid>
 
+    <stroke
+        android:color="@color/colorGreen"
+        android:width="2dp"></stroke>
+
     <corners
         android:topLeftRadius="190dp"   >
     </corners>

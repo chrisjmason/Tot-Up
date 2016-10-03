@@ -3,4 +3,6 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorLilac">#CFB8FC</color>
     <color name="colorGreen">#8bec43</color>
+    <color name="halfTransparent">#B3000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
