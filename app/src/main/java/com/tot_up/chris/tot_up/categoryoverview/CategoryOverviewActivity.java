@@ -2,8 +2,10 @@ package com.tot_up.chris.tot_up.categoryoverview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tot_up.chris.tot_up.Injection;
@@ -35,6 +38,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     FloatingActionButton addCategoryFab;
     DrawerLayout drawerLayout;
     CustomFabToolbar fabToolbar;
+    CoordinatorLayout coordinatorLayout;
 
     CategoryOverviewInterface.Presenter presenter;
     CategoryOverviewAdapter adapter;
@@ -99,6 +103,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         setUpRecyclerView(adapter);
         setUpToolbar();
         setUpNavView();
+        setUpCoordLayout();
         setUpOpenToolbarFab();
         setUpFabToolbar();
         setUpAddCategoryFab();
@@ -119,6 +124,10 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         }
     }
 
+    public void setUpCoordLayout(){
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.category_coordinator_layout);
+    }
+
     public void drawerContentInit(NavigationView navigationView){
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(menu -> {
@@ -137,8 +146,13 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
 
     private void setUpFabToolbar(){
         fabToolbar = (CustomFabToolbar) findViewById(R.id.fabtoolbar_category);
+        RelativeLayout innerLayout = (RelativeLayout) findViewById(R.id.inner_fabtoolbar);
         fabToolbar.setFab(openToolbarFab);
-        fabToolbar.setOnClickListener(view -> fabToolbar.contractFab());
+
+        innerLayout.setOnClickListener(view -> {
+            fabToolbar.contractFab();
+            closeKeyboard();
+        });
     }
 
     private void setUpOpenToolbarFab(){
