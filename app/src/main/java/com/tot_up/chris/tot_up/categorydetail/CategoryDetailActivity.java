@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +33,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private CategoryDetailInterface.Presenter presenter;
     private TextView monthPriceText;
     private TextView weekPriceText;
+    private EditText expenseCostText;
     private FloatingActionButton openToolbarFab;
     CustomFabToolbar fabToolbar;
     String categoryName;
@@ -82,6 +85,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpCollapsingLayout();
         setUpOpenToolbarFab();
         setUpFabToolbar();
+        setUpAddExpenseNoCameraFab();
     }
 
     private CategoryDetailAdapter setUpAdapter(){
@@ -121,6 +125,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private void setUpFabToolbar(){
         fabToolbar = (CustomFabToolbar) findViewById(R.id.fabtoolbar_expense);
         RelativeLayout innerLayout = (RelativeLayout) findViewById(R.id.inner_fabtoolbar_expense);
+        expenseCostText = (EditText) findViewById(R.id.new_expense_cost);
         fabToolbar.setFab(openToolbarFab);
 
         innerLayout.setOnClickListener(v -> {
@@ -134,6 +139,17 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         openToolbarFab.setOnClickListener(v -> {
             openToolbarFab.setVisibility(View.INVISIBLE);
             fabToolbar.expandFab();
+        });
+    }
+
+    private void setUpAddExpenseNoCameraFab(){
+        FloatingActionButton addExpenseFab = (FloatingActionButton) findViewById(R.id.fab_add_expense_no_camera);
+
+        addExpenseFab.setOnClickListener(v -> {
+            String expenseCost = expenseCostText.getText().toString();
+            presenter.addExpense(new Expense(expenseCost, DateUtil.getDate(), categoryName));
+            closeKeyboard();
+            fabToolbar.contractFab();
         });
     }
 

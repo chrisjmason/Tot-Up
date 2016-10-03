@@ -46,8 +46,6 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
         expensePrice.setText(expense.getDecimalPrice().toString());
         expenseDate.setText(expense.getDate());
 
-        Log.d("Image src", expense.getImageSrc());
-
         Glide.with(context)
                 .load(expense.getImageSrc())
                 .into(expenseImage);

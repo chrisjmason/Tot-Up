@@ -36,7 +36,8 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
 
     @Override
     public void addExpense(Expense expense) {
-        Observable<Boolean> addExpenseObs = repository.addExpense(expense.getCategoryName(),expense);
+        String categoryName = expense.getCategoryName();
+        Observable<Boolean> addExpenseObs = repository.addExpense(categoryName,expense);
 
         addExpenseObs.subscribe(added -> updateView(added, expense.getCategoryName()),
                 e -> {
