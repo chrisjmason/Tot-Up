@@ -9,7 +9,7 @@ public class Expense {
     private String categoryName;
 
     public Expense(String price, String date, String categoryName){
-        new Expense(price, date, categoryName, null);
+        this(price, date, categoryName, null);
     }
 
     public Expense(String price, String date, String categoryName, String imageSrc){

@@ -10,7 +10,7 @@ import rx.Observable;
 
 public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterface.View> implements CategoryDetailInterface.Presenter {
 
-    CategoryDetailRepositoryInterface repository;
+    private CategoryDetailRepositoryInterface repository;
 
     public CategoryDetailPresenter(CategoryDetailInterface.View view, CategoryDetailRepositoryInterface repository){
         attachView(view);

@@ -1,10 +1,14 @@
 package com.tot_up.chris.tot_up.categorydetail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.tot_up.chris.tot_up.Injection;
@@ -23,12 +28,17 @@ import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
+import com.tot_up.chris.tot_up.util.ImageFileUtil;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class CategoryDetailActivity extends AppCompatActivity implements CategoryDetailInterface.View {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     private CategoryDetailAdapter adapter;
     private CategoryDetailInterface.Presenter presenter;
     private TextView monthPriceText;
@@ -37,6 +47,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private FloatingActionButton openToolbarFab;
     CustomFabToolbar fabToolbar;
     String categoryName;
+    String imagePath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +57,17 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpPresenter();
         setUpUi();
         getExpenses();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            String expenseCost = expenseCostText.getText().toString();
+            Expense expenseToAdd = new Expense(expenseCost, DateUtil.getDate(), categoryName, imagePath);
+            presenter.addExpense(expenseToAdd);
+        }
     }
 
     @Override
@@ -60,7 +82,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     @Override
     public void showMessage(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -86,6 +108,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpOpenToolbarFab();
         setUpFabToolbar();
         setUpAddExpenseNoCameraFab();
+        setUpAddExpenseCameraFab();
     }
 
     private CategoryDetailAdapter setUpAdapter(){
@@ -153,6 +176,16 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         });
     }
 
+    private void setUpAddExpenseCameraFab(){
+        FloatingActionButton addExpenseCameraFab = (FloatingActionButton) findViewById(R.id.fab_add_expense_camera);
+        addExpenseCameraFab.setOnClickListener(v -> {
+            takePhoto();
+            closeKeyboard();
+            fabToolbar.contractFab();
+            expenseCostText.setText("");
+        });
+    }
+
     private void getExpenses(){
         presenter.getExpenses(categoryName);
     }
@@ -162,4 +195,25 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    private void takePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File imageFile = getImageFile();
+        imagePath = imageFile.getAbsolutePath();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, ImageFileUtil.getImageUri(getBaseContext(), imageFile));
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+    }
+
+    private File getImageFile(){
+        File imageFile = null;
+        try{
+            imageFile = ImageFileUtil.createImageFile(getBaseContext());
+        }catch (IOException ex){
+            ex.printStackTrace();
+            showMessage("Error, please try again");
+        }
+        return imageFile;
+    }
+
+
 }

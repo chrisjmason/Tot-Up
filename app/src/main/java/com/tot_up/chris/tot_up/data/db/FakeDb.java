@@ -3,6 +3,7 @@ package com.tot_up.chris.tot_up.data.db;
 
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class FakeDb implements DbInterface {
 
     @Override
     public List<Expense> getExpenseList(String categoryName) {
-        return  expenseMap.get(categoryName);
+        return expenseMap.get(categoryName);
     }
 
     @Override
@@ -76,4 +77,5 @@ public class FakeDb implements DbInterface {
     public Expense getExpense(String categoryName, int position) {
         return null;
     }
+
 }
