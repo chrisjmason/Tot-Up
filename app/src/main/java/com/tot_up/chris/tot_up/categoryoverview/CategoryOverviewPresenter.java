@@ -24,15 +24,20 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
 
     @Override
     public void addCategory(Category category) {
-        repository.addCategory(category)
-                .subscribe(categories -> {
-                            updateView(categories);
-                            showMessageInView(ADD_SUCCESS_MESSAGE);
-                        },
-                        e -> {
-                            e.printStackTrace();
-                            showMessageInView(ADD_ERROR_MESSAGE);
-                        });
+        if(category.getName().equals("")){
+            showMessageInView(ADD_ERROR_MESSAGE);
+        }else {
+            repository.addCategory(category)
+                    .subscribe(categories -> {
+                                updateView(categories);
+                                showMessageInView(ADD_SUCCESS_MESSAGE);
+                            },
+                            e -> {
+                                e.printStackTrace();
+                                showMessageInView(ADD_ERROR_MESSAGE);
+                            });
+        }
+
     }
 
     @Override
