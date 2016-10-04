@@ -68,6 +68,15 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     }
 
     @Override
+    public void onBackPressed() {
+        if(fabToolbar.isFabExpanded()){
+            fabToolbar.contractFab();
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void showCategories(List<Category> categoryList) {
         adapter.setCategoryList(categoryList);
     }
@@ -113,7 +122,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
 
     private void setUpNavView(){
