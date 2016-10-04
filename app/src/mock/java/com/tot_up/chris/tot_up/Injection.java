@@ -10,8 +10,8 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class Injection {
 
+public class Injection {
     private static Scheduler uiThread = AndroidSchedulers.mainThread();
     private static Scheduler workThread = Schedulers.io();
     private static Scheduler mockThread = Schedulers.immediate();

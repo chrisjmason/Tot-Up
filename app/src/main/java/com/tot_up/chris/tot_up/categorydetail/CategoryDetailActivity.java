@@ -2,19 +2,16 @@ package com.tot_up.chris.tot_up.categorydetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.DragEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -22,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
@@ -30,8 +26,6 @@ import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
 import com.tot_up.chris.tot_up.util.ImageFileUtil;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +63,15 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
             Expense expenseToAdd = new Expense(expenseCost, DateUtil.getDate(), categoryName, imagePath);
             presenter.addExpense(expenseToAdd);
             expenseCostText.setText("");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(fabToolbar.isFabExpanded()){
+            fabToolbar.contractFab();
+        }else{
+            super.onBackPressed();
         }
     }
 
