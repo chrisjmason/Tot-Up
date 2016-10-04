@@ -40,6 +40,7 @@ public class CategoryOverviewPresenterTest {
     Observable<List<Category>> obsError = Observable.error(new IOException());
 
     Category category = new Category("test1", DateUtil.getDate());
+    Category emptyCategory = new Category("", DateUtil.getDate());
     int position = 1;
 
     @Before
@@ -63,6 +64,12 @@ public class CategoryOverviewPresenterTest {
         presenter.addCategory(category);
         verify(view).showMessage(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void addEmptyCategory_Failure(){
+        presenter.addCategory(emptyCategory);
+        verify(view).showMessage(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
     }
 
     @Test
