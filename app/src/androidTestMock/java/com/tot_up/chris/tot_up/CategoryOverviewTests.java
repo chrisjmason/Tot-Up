@@ -1,6 +1,7 @@
 package com.tot_up.chris.tot_up;
 
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -8,21 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import android.support.test.rule.ActivityTestRule;
 
-import static android.support.test.espresso.Espresso.onView;
-
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkNotVisible;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkRecyclerHasDescendant;
 import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkRecyclerHasNoDescendant;
+import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkViewHasDescendant;
 import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkVisible;
+import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.clickRecyclerViewDescendant;
 import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.clickView;
 import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.type;
 
@@ -33,6 +24,7 @@ import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 public class CategoryOverviewTests {
 
     private static final String CATEGORY_NAME = "food";
+    private static final String CATEGORY_NAME2 = "travel";
 
     @Rule
     public ActivityTestRule<CategoryOverviewActivity> categoryOverviewTestRule = new ActivityTestRule<>(CategoryOverviewActivity.class);
@@ -61,7 +53,7 @@ public class CategoryOverviewTests {
         type(R.id.new_category_name, CATEGORY_NAME);
         clickView(R.id.fab_add_category);
 
-        checkRecyclerHasDescendant(R.id.category_recycler_view, CATEGORY_NAME);
+        checkViewHasDescendant(R.id.category_recycler_view, CATEGORY_NAME);
     }
 
     @Test
@@ -71,6 +63,16 @@ public class CategoryOverviewTests {
         clickView(R.id.fab_add_category);
 
         checkRecyclerHasNoDescendant(R.id.category_recycler_view);
+    }
+
+    @Test
+    public void clickCategory_checkDetailScreenDisplayed(){
+        clickView(R.id.fab_open_toolbar_category);
+        type(R.id.new_category_name, CATEGORY_NAME2);
+        clickView(R.id.fab_add_category);
+
+        clickRecyclerViewDescendant(R.id.category_recycler_view, CATEGORY_NAME2);
+        checkViewHasDescendant(R.id.category_detail_toolbar, CATEGORY_NAME2);
     }
 
 
