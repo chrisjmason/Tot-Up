@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 import com.tot_up.chris.tot_up.data.model.Expense;
+import com.tot_up.chris.tot_up.expensedetail.ExpenseDetailActivity;
 import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
 import com.tot_up.chris.tot_up.util.ImageFileUtil;
@@ -32,6 +35,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class CategoryDetailActivity extends AppCompatActivity implements CategoryDetailInterface.View {
+    public static final String IMAGE_PATH = "imgpath";
+    public static final String EXPENSE_PRICE = "price";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private CategoryDetailAdapter adapter;
@@ -40,6 +45,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private TextView weekPriceText;
     private EditText expenseCostText;
     private FloatingActionButton openToolbarFab;
+    private ImageView minimiseButton;
+    private AppBarLayout appBarLayout;
     CustomFabToolbar fabToolbar;
     String categoryName;
     String imagePath;
@@ -97,7 +104,10 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     @Override
     public void goToDetail(Expense expense) {
-
+        Intent intent = new Intent(this, ExpenseDetailActivity.class);
+        intent.putExtra(IMAGE_PATH, expense.getImageSrc());
+        intent.putExtra(EXPENSE_PRICE, expense.getDecimalPrice().toString());
+        startActivity(intent);
     }
 
     private void setUpPresenter() {
@@ -108,6 +118,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         adapter = setUpAdapter();
         setUpRecyclerView();
         setUpToolbar();
+        setUpAppBarLayout();
         setUpCollapsingToolbar();
         setUpCollapsingLayout();
         setUpOpenToolbarFab();
@@ -135,6 +146,10 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    private void setUpAppBarLayout(){
+        appBarLayout = (AppBarLayout) findViewById(R.id.category_detail_appbar);
+    }
+
     private void setUpCollapsingToolbar(){
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.category_detail_collapsing_toolbar);
         collapsingToolbar.setTitleEnabled(true);
@@ -144,10 +159,13 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private void setUpCollapsingLayout(){
         monthPriceText = (TextView) findViewById(R.id.month_price_text);
         weekPriceText = (TextView) findViewById(R.id.week_price_text);
+        minimiseButton = (ImageView) findViewById(R.id.expense_detail_minimise);
 
         //Change this to update from presenter with actual totals
         monthPriceText.setText("20.30");
         weekPriceText.setText("4.50");
+
+        minimiseButton.setOnClickListener(v -> appBarLayout.setExpanded(false, true));
     }
 
     private void setUpFabToolbar(){

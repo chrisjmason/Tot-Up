@@ -21,6 +21,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     private List<Expense> expenseList;
     private Context context;
     private CategoryDetailInterface.Presenter presenter;
+    CardView cardView;
 
     public CategoryDetailAdapter(CategoryDetailInterface.Presenter presenter, Context context) {
         this.presenter = presenter;
@@ -36,12 +37,14 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
     @Override
     public void onBindViewHolder(CategoryDetailAdapter.ViewHolder holder, int position) {
-        CardView cardView = holder.cardView;
+        cardView = holder.cardView;
         TextView expensePrice = (TextView) cardView.findViewById(R.id.expense_price_text);
         TextView expenseDate = (TextView) cardView.findViewById(R.id.expense_date_text);
         ImageView expenseImage = (ImageView) cardView.findViewById(R.id.expense_image);
 
         Expense expense = expenseList.get(position);
+
+        setCardViewListener(expense);
 
         expensePrice.setText(expense.getDecimalPrice().toString());
         expenseDate.setText(expense.getDate());
@@ -62,6 +65,10 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     public void setExpenseList(List<Expense> expenseList){
         this.expenseList = expenseList;
         notifyDataSetChanged();
+    }
+
+    public void setCardViewListener(Expense expense){
+        cardView.setOnClickListener(v -> presenter.goToDetail(expense));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
