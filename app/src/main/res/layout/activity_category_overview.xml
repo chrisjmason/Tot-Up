@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     tools:openDrawer="start"
     tools:context=".categoryoverview.CategoryOverviewActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -32,7 +33,16 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/category_recycler_view" />
+                android:id="@+id/category_recycler_view"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/category_empty_text"
+                android:gravity="center"
+                android:text="@string/empty_category_list"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_open_toolbar_category"

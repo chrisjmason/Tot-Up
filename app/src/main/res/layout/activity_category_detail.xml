@@ -7,11 +7,11 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/category_detail_appbar"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="230dp"
         android:fitsSystemWindows="true"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:stateListAnimator="@drawable/appbar_always_elevated">
 
@@ -22,7 +22,8 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorLilac"
-            app:expandedTitleMarginStart="@dimen/small_margin">
+            app:expandedTitleMarginStart="@dimen/small_margin"
+            app:expandedTitleMarginBottom="@dimen/medium_margin">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -72,6 +73,16 @@
                     android:textColor="@color/colorGreen"
                     android:layout_below="@+id/month_text"
                     android:layout_alignStart="@+id/week_text" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/expense_detail_minimise"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignStart="@+id/month_price_text"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -88,7 +99,15 @@
         android:id="@+id/expense_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/expense_empty_text"
+        android:gravity="center"
+        android:text="@string/empty_category_list" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_open_toolbar_expense"
