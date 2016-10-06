@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tot_up.chris.tot_up.Injection;
@@ -33,6 +34,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     public static final String CATEGORY_NAME = "category";
 
     RecyclerView recyclerView;
+    TextView emptyText;
     FloatingActionButton openToolbarFab;
     FloatingActionButton addCategoryFab;
     DrawerLayout drawerLayout;
@@ -47,7 +49,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_overview);
         setUpPresenter();
-        setUpViews();
+        setUpUi();
         presenter.getCategories();
     }
 
@@ -78,6 +80,8 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
 
     @Override
     public void showCategories(List<Category> categoryList) {
+        emptyText.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         adapter.setCategoryList(categoryList);
     }
 
@@ -88,7 +92,8 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
 
     @Override
     public void showEmptyScreen() {
-
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyText.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -106,9 +111,10 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         return new CategoryOverviewAdapter(presenter,this);
     }
 
-    private void setUpViews(){
+    private void setUpUi(){
         adapter = setUpAdapter();
         setUpRecyclerView(adapter);
+        setUpEmptyLayout();
         setUpToolbar();
         setUpNavView();
         setUpCoordLayout();
@@ -150,6 +156,10 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setUpEmptyLayout(){
+        emptyText = (TextView) findViewById(R.id.category_empty_text);
     }
 
     private void setUpFabToolbar(){

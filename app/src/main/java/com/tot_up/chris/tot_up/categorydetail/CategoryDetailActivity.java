@@ -41,6 +41,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     private CategoryDetailAdapter adapter;
     private CategoryDetailInterface.Presenter presenter;
+    private RecyclerView recyclerView;
+    private TextView emptyText;
     private TextView monthPriceText;
     private TextView weekPriceText;
     private EditText expenseCostText;
@@ -84,6 +86,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     @Override
     public void showExpenses(List<Expense> expenseList) {
+        emptyText.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         adapter.setExpenseList(expenseList);
     }
 
@@ -99,7 +103,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     @Override
     public void showEmpty() {
-
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyText.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -117,6 +122,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private void setUpUi(){
         adapter = setUpAdapter();
         setUpRecyclerView();
+        setUpEmptyText();
         setUpToolbar();
         setUpAppBarLayout();
         setUpCollapsingToolbar();
@@ -132,10 +138,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     }
 
     private void setUpRecyclerView(){
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.expense_recycler);
+        recyclerView = (RecyclerView) findViewById(R.id.expense_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setUpEmptyText(){
+        emptyText = (TextView) findViewById(R.id.expense_empty_text);
     }
 
     private void setUpToolbar(){
