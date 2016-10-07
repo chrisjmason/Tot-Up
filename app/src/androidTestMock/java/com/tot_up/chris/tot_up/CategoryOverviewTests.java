@@ -1,7 +1,6 @@
 package com.tot_up.chris.tot_up;
 
 
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -9,14 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import android.support.test.rule.ActivityTestRule;
 
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkNotVisible;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkRecyclerHasNoDescendant;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkViewHasDescendant;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.checkVisible;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.clickRecyclerViewDescendant;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.clickView;
-import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.type;
-
+import static com.tot_up.chris.tot_up.testhelpers.MatcherHelpers.*;
 
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 
@@ -31,7 +23,7 @@ public class CategoryOverviewTests {
 
     @Test
     public void startActivity_checkFabVisible(){
-        checkVisible(R.id.fab_open_toolbar_category);
+        checkViewVisible(R.id.fab_open_toolbar_category);
     }
 
     @Test
@@ -43,8 +35,8 @@ public class CategoryOverviewTests {
     public void clickFab_checkFabToolbarVisible(){
         clickView(R.id.fab_open_toolbar_category);
 
-        checkVisible(R.id.new_category_name);
-        checkVisible(R.id.fab_add_category);
+        checkViewVisible(R.id.new_category_name);
+        checkViewVisible(R.id.fab_add_category);
     }
 
     @Test
@@ -53,7 +45,7 @@ public class CategoryOverviewTests {
         type(R.id.new_category_name, CATEGORY_NAME);
         clickView(R.id.fab_add_category);
 
-        checkViewHasDescendant(R.id.category_recycler_view, CATEGORY_NAME);
+        checkViewHasDescendantText(R.id.category_recycler_view, CATEGORY_NAME);
     }
 
     @Test
@@ -72,7 +64,7 @@ public class CategoryOverviewTests {
         clickView(R.id.fab_add_category);
 
         clickRecyclerViewDescendant(R.id.category_recycler_view, CATEGORY_NAME2);
-        checkViewHasDescendant(R.id.category_detail_toolbar, CATEGORY_NAME2);
+        checkViewHasDescendantText(R.id.category_detail_toolbar, CATEGORY_NAME2);
     }
 
 

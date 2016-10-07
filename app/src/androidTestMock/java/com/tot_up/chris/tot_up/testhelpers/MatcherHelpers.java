@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.not;
 
 public class MatcherHelpers {
 
-    public static void checkVisible(int viewId){
+    public static void checkViewVisible(int viewId){
         onView(withId(viewId)).check(matches(isDisplayed()));
     }
 
@@ -32,7 +32,7 @@ public class MatcherHelpers {
         onView(withId(viewId)).perform(typeText(textToType));
     }
 
-    public static void checkViewHasDescendant(int viewId, String descendantText){
+    public static void checkViewHasDescendantText(int viewId, String descendantText){
         onView(withId(viewId)).check(matches(hasDescendant(withText(descendantText))));
     }
 
