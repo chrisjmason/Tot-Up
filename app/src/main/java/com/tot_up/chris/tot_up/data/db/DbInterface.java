@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface DbInterface {
 
-    interface Category{
         List<Category> getCategoryList();
 
         boolean addCategory(Category category);
@@ -15,9 +14,6 @@ public interface DbInterface {
         boolean deleteCategory(int position);
 
         Category getCategory(int position);
-    }
-
-    interface Expense{
 
         List<Expense> getExpenseList(String categoryName);
 
@@ -26,9 +22,5 @@ public interface DbInterface {
         boolean deleteExpense(String categoryName, int position);
 
         Expense getExpense(String categoryName, int position);
-
-    }
-
-
 
 }
