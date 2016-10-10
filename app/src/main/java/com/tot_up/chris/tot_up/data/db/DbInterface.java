@@ -7,20 +7,28 @@ import java.util.List;
 
 public interface DbInterface {
 
-    List<Category> getCategoryList();
+    interface Category{
+        List<Category> getCategoryList();
 
-    boolean addCategory(Category category);
+        boolean addCategory(Category category);
 
-    boolean deleteCategory(int position);
+        boolean deleteCategory(int position);
 
-    Category getCategory(int position);
+        Category getCategory(int position);
+    }
 
-    List<Expense> getExpenseList(String categoryName);
+    interface Expense{
 
-    boolean addExpense(String categoryName, Expense expense);
+        List<Expense> getExpenseList(String categoryName);
 
-    boolean deleteExpense(String categoryName, int position);
+        boolean addExpense(String categoryName, Expense expense);
 
-    Expense getExpense(String categoryName, int position);
+        boolean deleteExpense(String categoryName, int position);
+
+        Expense getExpense(String categoryName, int position);
+
+    }
+
+
 
 }
