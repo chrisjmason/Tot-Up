@@ -34,6 +34,7 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
             });
     }
 
+    //TODO check for empty string
     @Override
     public void addExpense(Expense expense) {
         String categoryName = expense.getCategoryName();

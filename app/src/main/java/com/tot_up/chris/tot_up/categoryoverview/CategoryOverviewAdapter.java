@@ -50,6 +50,7 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
                 .getDate());
 
         cardView.setOnClickListener((v) -> presenter.goToDetail(category));
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.tot_up.chris.tot_up.util.CustomFabToolbar;
+package com.tot_up.chris.tot_up.util.customfabtoolbar;
 
 import android.support.v4.view.ViewCompat;
 import android.view.View;
