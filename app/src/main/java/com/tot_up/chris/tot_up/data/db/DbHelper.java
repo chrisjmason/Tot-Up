@@ -1,10 +1,10 @@
 package com.tot_up.chris.tot_up.data.db;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings;
@@ -12,30 +12,31 @@ import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.COL_DATE;
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.COL_NAME;
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.ID;
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.TABLE_NAME;
+import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.*;
+import static com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings.*;
+
 
 public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     static DbHelper instance;
 
-    static final String DATABASE_NAME = "TotUpDb.db";
-    static final int DATABASE_VERSION = 3;
+    private static final String DATABASE_NAME = "TotUpDb.db";
+    private static final int DATABASE_VERSION = 6;
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static DbHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new DbHelper(context.getApplicationContext());
-        }
-        return instance;
-    }
+//    public static DbHelper getInstance(Context context) {
+//        if (instance == null) {
+//            instance = new DbHelper(context.getApplicationContext());
+//        }
+//        return instance;
+//    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -45,43 +46,38 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(" DROP TABLE IF EXISTS " + DATABASE_NAME);
+        db.execSQL(" DROP TABLE IF EXISTS " + CATEGORY_TABLE_NAME);
+        db.execSQL(" DROP TABLE IF EXISTS " + EXPENSE_TABLE_NAME);
         onCreate(db);
     }
 
     @Override
     public List<Category> getCategoryList() {
         SQLiteDatabase database = getWritableDatabase();
-        String[] rowArray = new String[]{ID, COL_NAME, COL_DATE};
-        Cursor cursor = database.query(TABLE_NAME, rowArray, null, null, null, null, null, null);
-        List<Category> categoryList = cursorToCategoryList(cursor);
-        cursor.close();
-        return categoryList;
+        String[] rowArray = new String[]{COL_CATEGORY_ID, COL_CATEORY_NAME, COL_CATEGORY_DATE};
+        Cursor cursor = database.query(CATEGORY_TABLE_NAME, rowArray, null, null, null, null, null, null);
+        return cursorToCategoryList(cursor);
     }
 
     @Override
     public boolean addCategory(Category category) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_NAME, category.getName());
-        contentValues.put(COL_DATE, category.getDate());
-        long count = database.insert(TABLE_NAME, null, contentValues);
-        return (count>0);
-
+        contentValues.put(COL_CATEORY_NAME, category.getName());
+        contentValues.put(COL_CATEGORY_DATE, category.getDate());
+        return (database.insert(CATEGORY_TABLE_NAME, null, contentValues) > 0);
     }
 
     @Override
     public boolean deleteCategory(int position) {
         SQLiteDatabase database = getWritableDatabase();
-        List<Integer> idList = getIdList();
+        List<Integer> idList = getIdList(CATEGORY_TABLE_NAME, COL_CATEGORY_ID);
         int idToDelete = idList.get(position);
-        long count = database.delete(TABLE_NAME, ID + "=" + idToDelete, null);
-        return (count>0);
+        return (database.delete(CATEGORY_TABLE_NAME, COL_CATEGORY_ID + "=" + idToDelete, null) >0);
     }
 
     @Override
     public Category getCategory(int position) {
-        SQLiteDatabase database = getWritableDatabase();
         List<Category> categoryList = getCategoryList();
         return categoryList.get(position);
     }
@@ -89,22 +85,42 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
 
     @Override
     public List<Expense> getExpenseList(String categoryName) {
-        return null;
+        SQLiteDatabase database = getWritableDatabase();
+        String[] rowArray = new String[]{COL_EXPENSE_CATEGORY, COL_EXPENSE_PRICE, COL_EXPENSE_DATE, COL_EXPENSE_IMAGE};
+        String where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'";
+
+        try{
+            Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null, null);
+            return cursorToExpenseList(cursor);
+        }catch (SQLiteException ex){
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     @Override
     public boolean addExpense(String categoryName, Expense expense) {
-        return false;
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_EXPENSE_CATEGORY, categoryName);
+        contentValues.put(COL_EXPENSE_PRICE, expense.getDecimalPrice().toString());
+        contentValues.put(COL_EXPENSE_DATE, expense.getDate());
+        contentValues.put(COL_EXPENSE_IMAGE, expense.getImageSrc());
+        return (database.insert(EXPENSE_TABLE_NAME, null, contentValues) > 0);
     }
 
     @Override
     public boolean deleteExpense(String categoryName, int position) {
-        return false;
+        SQLiteDatabase database = getWritableDatabase();
+        List<Integer> idList = getIdList(EXPENSE_TABLE_NAME, COL_EXPENSE_ID);
+        int idToDelete = idList.get(position);
+        return (database.delete(EXPENSE_TABLE_NAME, COL_EXPENSE_ID + "=" + idToDelete, null) > 0);
     }
 
     @Override
     public Expense getExpense(String categoryName, int position) {
-        return null;
+        List<Expense> expenseList = getExpenseList(categoryName);
+        return expenseList.get(position);
     }
 
     private List<Category> cursorToCategoryList(Cursor cursor){
@@ -112,8 +128,8 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME));
-            String date = cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEORY_NAME));
+            String date = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY_DATE));
             Category category = new Category(name, date);
             categoryList.add(category);
             cursor.moveToNext();
@@ -122,14 +138,32 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         return categoryList;
     }
 
-    private List<Integer> getIdList(){
+    private List<Expense> cursorToExpenseList(Cursor cursor){
+        List<Expense> expenseList = new ArrayList<>();
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()){
+            String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_CATEGORY));
+            String expensePrice = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_PRICE));
+            String expenseDate = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_DATE));
+            String expenseImage = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_IMAGE));
+            Expense expense = new Expense(expensePrice, expenseDate, categoryName, expenseImage);
+            expenseList.add(expense);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return expenseList;
+    }
+
+    private List<Integer> getIdList(String tableName, String idColumn){
         SQLiteDatabase database = getWritableDatabase();
         List<Integer> categoryIdList = new ArrayList<>();
-        Cursor cursor = database.query(TABLE_NAME, new String[]{ID}, null, null, null,null,null);
+        Cursor cursor = database.query(tableName, new String[]{idColumn}, null, null, null,null,null);
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(idColumn));
             categoryIdList.add(id);
             cursor.moveToNext();
         }

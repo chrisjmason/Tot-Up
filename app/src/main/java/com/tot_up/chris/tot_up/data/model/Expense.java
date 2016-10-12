@@ -13,7 +13,7 @@ public class Expense {
     }
 
     public Expense(String price, String date, String categoryName, String imageSrc){
-        decimalPrice = new BigDecimal(price);
+        decimalPrice = new BigDecimal(price).setScale(2);
         this.date = date;
         this.categoryName = categoryName;
         this.imageSrc = imageSrc;
