@@ -12,7 +12,7 @@ import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -123,6 +123,21 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         return expenseList.get(position);
     }
 
+    @Override
+    public String getExpenseTotalSince(String categoryName, String expenseFromDate) {
+        SQLiteDatabase database = getWritableDatabase();
+        String[] rowArray = new String[]{COL_EXPENSE_PRICE};
+        String where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'" + " AND " + COL_EXPENSE_DATE + " >= " + expenseFromDate;
+
+        try{
+            Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
+            return cursorToExpenseTotal(cursor);
+        }catch (SQLiteException ex){
+            ex.printStackTrace();
+            return "0.00";
+        }
+    }
+
     private List<Category> cursorToCategoryList(Cursor cursor){
         List<Category> categoryList = new ArrayList<>();
         cursor.moveToFirst();
@@ -151,9 +166,21 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
             expenseList.add(expense);
             cursor.moveToNext();
         }
-
         cursor.close();
         return expenseList;
+    }
+
+    private String cursorToExpenseTotal(Cursor cursor){
+        cursor.moveToFirst();
+        BigDecimal totalPrice = new BigDecimal(0).setScale(2);
+
+        while (!cursor.isAfterLast()){
+            String expensePrice = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_PRICE));
+            BigDecimal price = new BigDecimal(expensePrice).setScale(2);
+            totalPrice.add(price);
+        }
+
+        return totalPrice.toString();
     }
 
     private List<Integer> getIdList(String tableName, String idColumn){
