@@ -141,6 +141,42 @@ public class CategoryDetailPresenterTest {
         verify(view).goToDetail(expenseToAdd);
     }
 
+    @Test
+    public void getMonthTotal_Success(){
+        when(repository.getExpenseTotal(FOOD, DateUtil.getStartOfMonth())).thenReturn(Observable.just("2.30"));
+
+        presenter.getMonthExpenseTotal(FOOD);
+
+        verify(view).showMonthTotal("£2.30");
+    }
+
+    @Test
+    public void getMonthTotal_Error(){
+        when(repository.getExpenseTotal(FOOD, DateUtil.getStartOfMonth())).thenReturn(Observable.error(new IOException()));
+
+        presenter.getMonthExpenseTotal(FOOD);
+
+        verifyViewShowError();
+    }
+
+    @Test
+    public void getWeekTotal_Success(){
+        when(repository.getExpenseTotal(FOOD, DateUtil.getStartOfWeek())).thenReturn(Observable.just("2.30"));
+
+        presenter.getWeekExpenseTotal(FOOD);
+
+        verify(view).showWeekTotal("£2.30");
+    }
+
+    @Test
+    public void getWeekTotal_Error(){
+        when(repository.getExpenseTotal(FOOD, DateUtil.getStartOfWeek())).thenReturn(Observable.error(new IOException()));
+
+        presenter.getWeekExpenseTotal(FOOD);
+
+        verifyViewShowError();
+    }
+
     private void mockGetExpensesRepositoryResponse(Observable observableResponse) {
         when(repository.getExpenseList(FOOD)).thenReturn(observableResponse);
     }
