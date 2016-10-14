@@ -89,4 +89,17 @@ public class CategoryDetailRepositoryTest {
         testSubscriber.assertValue(EXPENSE);
     }
 
+    @Test
+    public void getExpenseTotal_Success(){
+        String expenseTotal = "2.30";
+        when(database.getExpenseTotalSince(FOOD, DateUtil.getStartOfWeek())).thenReturn(expenseTotal);
+        TestSubscriber<String> testSubscriber = new TestSubscriber<>();
+
+        repository.getExpenseTotal(FOOD, DateUtil.getStartOfWeek())
+                .subscribe(testSubscriber);
+
+        verify(database).getExpenseTotalSince(FOOD, DateUtil.getStartOfWeek());
+        testSubscriber.assertValue(expenseTotal);
+    }
+
 }
