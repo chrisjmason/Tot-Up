@@ -16,4 +16,6 @@ public interface CategoryDetailRepositoryInterface {
 
     Observable<Expense> getExpense(String categoryName, int position);
 
+    Observable<String> getExpenseTotal(String categoryName, String fromDate);
+
 }

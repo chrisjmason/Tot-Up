@@ -48,4 +48,11 @@ public class CategoryDetailRepository implements CategoryDetailRepositoryInterfa
                 .subscribeOn(workThread)
                 .observeOn(uiThread);
     }
+
+    @Override
+    public Observable<String> getExpenseTotal(String categoryName, String fromDate) {
+        return Observable.just(database.getExpenseTotalSince(categoryName, fromDate))
+                .subscribeOn(workThread)
+                .observeOn(uiThread);
+    }
 }
