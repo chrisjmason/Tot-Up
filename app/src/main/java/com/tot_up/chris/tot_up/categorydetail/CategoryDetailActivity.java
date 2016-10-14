@@ -115,6 +115,16 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         startActivity(intent);
     }
 
+    @Override
+    public void showMonthTotal(String total) {
+
+    }
+
+    @Override
+    public void showWeekTotal(String total) {
+
+    }
+
     private void setUpPresenter() {
         presenter = new CategoryDetailPresenter(this, Injection.provideCategoryDetailRepository());
     }

@@ -3,11 +3,15 @@ package com.tot_up.chris.tot_up.categorydetail;
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetailRepositoryInterface;
+import com.tot_up.chris.tot_up.util.DateUtil;
+import com.tot_up.chris.tot_up.util.StringFormatterUtil;
 
+import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
 
+//// TODO: 14/10/2016 Move methods retrieving totals to seperate presenter
 public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterface.View> implements CategoryDetailInterface.Presenter {
 
     private CategoryDetailRepositoryInterface repository;
@@ -63,6 +67,28 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
         getView().goToDetail(expense);
     }
 
+    @Override
+    public void getMonthExpenseTotal(String categoryName) {
+        Observable<String> expenseTotalObs = repository.getExpenseTotal(categoryName, DateUtil.getStartOfMonth());
+
+        expenseTotalObs.subscribe(total -> getView().showMonthTotal(StringFormatterUtil.addCurrencySignToString(total)),
+                e->{
+                    e.printStackTrace();
+                    updateView(false, categoryName);
+                });
+    }
+
+    @Override
+    public void getWeekExpenseTotal(String categoryName) {
+        Observable<String> expenseTotalObs = repository.getExpenseTotal(categoryName, DateUtil.getStartOfWeek());
+
+        expenseTotalObs.subscribe(total -> getView().showWeekTotal(StringFormatterUtil.addCurrencySignToString(total)),
+                e->{
+                    e.printStackTrace();
+                    updateView(false, categoryName);
+                });
+    }
+
     private void updateView(Boolean success, String category){
         if(success) {
             getView().showMessage("Success");
@@ -71,4 +97,6 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
             getView().showError();
         }
     }
+
+
 }

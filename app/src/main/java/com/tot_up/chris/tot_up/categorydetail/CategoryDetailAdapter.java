@@ -3,7 +3,6 @@ package com.tot_up.chris.tot_up.categorydetail;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.data.model.Expense;
+import com.tot_up.chris.tot_up.util.DateUtil;
+import com.tot_up.chris.tot_up.util.StringFormatterUtil;
 
 import java.util.List;
 
@@ -46,8 +47,11 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
         setCardViewListener(expense);
 
-        expensePrice.setText(expense.getDecimalPrice().toString());
-        expenseDate.setText(expense.getDate());
+        String expensePriceString = expense.getDecimalPrice().toString();
+        expensePrice.setText(StringFormatterUtil.addCurrencySignToString(expensePriceString));
+
+        String expenseDateString = expense.getDate();
+        expenseDate.setText(DateUtil.getDifference(expenseDateString));
 
         Glide.with(context)
                 .load(expense.getImageSrc())

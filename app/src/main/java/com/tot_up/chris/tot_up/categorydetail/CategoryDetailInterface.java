@@ -19,6 +19,10 @@ public interface CategoryDetailInterface {
 
         void goToDetail(Expense expense);
 
+        void showMonthTotal(String total);
+
+        void showWeekTotal(String total);
+
     }
 
     interface Presenter{
@@ -30,6 +34,10 @@ public interface CategoryDetailInterface {
         void deleteExpense(int position, String categoryName);
 
         void goToDetail(Expense expense);
+
+        void getMonthExpenseTotal(String categoryName);
+
+        void getWeekExpenseTotal(String categoryName);
 
     }
 }
