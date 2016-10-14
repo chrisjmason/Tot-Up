@@ -2,14 +2,14 @@ package com.tot_up.chris.tot_up.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
 
     public static String getDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return sdf.format(new Date());
+        return formatDate(new Date());
     }
 
     public static Long getTimestamp(){
@@ -32,6 +32,25 @@ public class DateUtil {
         return calcDiff(nowDateObj, thenDateObj);
     }
 
+    public static String getStartOfWeek(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        return formatDate(calendar.getTime());
+    }
+
+    public static String getStartOfMonth(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        return formatDate(calendar.getTime());
+    }
+
+    private static String formatDate(Date dateToFormat){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(dateToFormat);
+    }
+
     private static String calcDiff(Date nowDateObj, Date thenDateObj){
         long differenceMinutes = TimeUnit.MILLISECONDS.toMinutes(nowDateObj.getTime() - thenDateObj.getTime());
 
@@ -44,8 +63,8 @@ public class DateUtil {
         }else if(differenceDays == 0){
             return String.valueOf(differenceHours) + "h";
         }
-
         return String.valueOf(differenceDays) + "d";
-
     }
+
+
 }
