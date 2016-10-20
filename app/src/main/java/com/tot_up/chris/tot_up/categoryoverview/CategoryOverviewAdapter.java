@@ -1,7 +1,9 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,7 +51,9 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
 
         categoryDate.setText(DateUtil.getDifference(category.getDate()));
 
-        cardView.setOnClickListener((v) -> presenter.goToDetail(category));
+        cardView.setOnClickListener(v -> presenter.goToDetail(category));
+
+        cardView.setOnLongClickListener(v -> openDeleteDialog(position));
 
     }
 
@@ -64,6 +68,18 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
     public void setCategoryList(List<Category> categoryList){
         this.categoryList = categoryList;
         notifyDataSetChanged();
+    }
+
+    private boolean openDeleteDialog(int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Delete")
+                .setMessage("Are you sure you want to delete?")
+                .setPositiveButton("Yes", (dialog, which) -> presenter.deleteCategory(position))
+                .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
+                .create()
+                .show();
+
+        return true;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
