@@ -48,6 +48,7 @@
                 android:id="@+id/fab_open_toolbar_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
                 android:layout_margin="@dimen/small_margin"
                 app:layout_anchor="@id/category_recycler_view"
                 app:layout_anchorGravity="bottom|right|end"/>
@@ -56,6 +57,7 @@
                 android:id="@+id/fabtoolbar_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:src="@drawable/ic_add"
                 android:layout_gravity="bottom"
                 app:tb_container_gravity="center"
                 app:tb_anim_duration="400"
@@ -85,6 +87,7 @@
                         android:id="@+id/fab_add_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add"
                         android:elevation="6dp"
                         app:layout_anchor="@id/new_category_name"
                         app:layout_anchorGravity="bottom|right|end"

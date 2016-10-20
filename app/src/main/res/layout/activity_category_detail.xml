@@ -73,16 +73,6 @@
                     android:textColor="@color/colorGreen"
                     android:layout_below="@+id/month_text"
                     android:layout_alignStart="@+id/week_text" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    android:id="@+id/expense_detail_minimise"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/month_price_text"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginBottom="@dimen/small_margin" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -111,6 +101,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_open_toolbar_expense"
+        android:src="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_margin"
@@ -138,6 +129,7 @@
                 android:id="@+id/fab_add_expense_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_camera"
                 android:elevation="6dp"
                 app:layout_anchor="@+id/new_expense_cost"
                 app:layout_anchorGravity="bottom|right|end"
@@ -151,6 +143,7 @@
                 android:id="@+id/fab_add_expense_no_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
                 android:elevation="6dp"
                 app:fabSize="mini"
                 app:layout_anchor="@+id/fab_add_expense_camera"
