@@ -1,18 +1,18 @@
 package com.tot_up.chris.tot_up.util;
 
+import java.util.Currency;
+import java.util.Locale;
+
 public class StringFormatterUtil {
 
     private StringFormatterUtil(){}
 
-    public static String addPoundSignToString(String string){
-        return "£" + string;
+    //Will check here to see which currency has been chosen and then display that
+    public static String addCurrencySignToString(String string){
+        String poundSign = Currency.getInstance(Locale.UK).getSymbol();
+
+        return poundSign + string;
+
     }
 
-    public static String addEuroSignToString(String string){
-        return "€" + string;
-    }
-
-    public static String addDollarSignToString(String string){
-        return "$" + string;
-    }
 }
