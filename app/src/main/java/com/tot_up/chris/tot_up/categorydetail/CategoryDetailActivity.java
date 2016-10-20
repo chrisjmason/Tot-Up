@@ -47,7 +47,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private TextView weekPriceText;
     private EditText expenseCostText;
     private FloatingActionButton openToolbarFab;
-    private ImageView minimiseButton;
     private AppBarLayout appBarLayout;
     CustomFabToolbar fabToolbar;
     String categoryName;
@@ -61,6 +60,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpPresenter();
         setUpUi();
         getExpenses();
+        getExpenseTotals();
     }
 
     @Override
@@ -117,12 +117,12 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     @Override
     public void showMonthTotal(String total) {
-
+        monthPriceText.setText(total);
     }
 
     @Override
     public void showWeekTotal(String total) {
-
+        weekPriceText.setText(total);
     }
 
     private void setUpPresenter() {
@@ -179,13 +179,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private void setUpCollapsingLayout(){
         monthPriceText = (TextView) findViewById(R.id.month_price_text);
         weekPriceText = (TextView) findViewById(R.id.week_price_text);
-        minimiseButton = (ImageView) findViewById(R.id.expense_detail_minimise);
-
-        //Change this to update from presenter with actual totals
-        monthPriceText.setText("20.30");
-        weekPriceText.setText("4.50");
-
-        minimiseButton.setOnClickListener(v -> appBarLayout.setExpanded(false, true));
     }
 
     private void setUpFabToolbar(){
@@ -231,6 +224,11 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
 
     private void getExpenses(){
         presenter.getExpenses(categoryName);
+    }
+
+    private void getExpenseTotals(){
+        presenter.getWeekExpenseTotal(categoryName);
+        presenter.getMonthExpenseTotal(categoryName);
     }
 
     private void closeKeyboard(){

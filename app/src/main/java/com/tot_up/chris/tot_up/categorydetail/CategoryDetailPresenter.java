@@ -93,6 +93,8 @@ public class CategoryDetailPresenter extends BasePresenter<CategoryDetailInterfa
         if(success) {
             getView().showMessage("Success");
             getExpenses(category);
+            getMonthExpenseTotal(category);
+            getWeekExpenseTotal(category);
         }else{
             getView().showError();
         }
