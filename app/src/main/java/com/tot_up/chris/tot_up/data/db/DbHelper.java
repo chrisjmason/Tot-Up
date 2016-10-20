@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings;
 import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
@@ -127,10 +128,11 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     public String getExpenseTotalSince(String categoryName, String expenseFromDate) {
         SQLiteDatabase database = getWritableDatabase();
         String[] rowArray = new String[]{COL_EXPENSE_PRICE};
-        String where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'" + " AND " + COL_EXPENSE_DATE + " >= " + expenseFromDate;
+        String where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'" + " AND " + COL_EXPENSE_DATE + " >= " + "'" + expenseFromDate + "'";
 
         try{
             Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
+            Log.d("Expenses since", String.valueOf(cursor.getColumnCount()));
             return cursorToExpenseTotal(cursor);
         }catch (SQLiteException ex){
             ex.printStackTrace();
@@ -176,10 +178,11 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
 
         while (!cursor.isAfterLast()){
             String expensePrice = cursor.getString(cursor.getColumnIndexOrThrow(COL_EXPENSE_PRICE));
-            BigDecimal price = new BigDecimal(expensePrice).setScale(2);
-            totalPrice.add(price);
+            totalPrice = totalPrice.add(new BigDecimal(expensePrice).setScale(2));
+            cursor.moveToNext();
         }
 
+        cursor.close();
         return totalPrice.toString();
     }
 
