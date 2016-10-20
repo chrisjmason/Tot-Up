@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import org.w3c.dom.Text;
 
@@ -46,8 +47,7 @@ public class CategoryOverviewAdapter extends RecyclerView.Adapter<CategoryOvervi
         categoryTitle.setText(category
                 .getName());
 
-        categoryDate.setText(category
-                .getDate());
+        categoryDate.setText(DateUtil.getDifference(category.getDate()));
 
         cardView.setOnClickListener((v) -> presenter.goToDetail(category));
 
