@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
+import com.tot_up.chris.tot_up.util.StringFormatterUtil;
 
 public class ExpenseDetailActivity extends AppCompatActivity implements ExpenseDetailInterface.View {
 
@@ -63,6 +64,6 @@ public class ExpenseDetailActivity extends AppCompatActivity implements ExpenseD
 
     private void setUpPriceText(){
         priceText = (TextView) findViewById(R.id.expense_detail_text);
-        priceText.setText(expensePrice);
+        priceText.setText(StringFormatterUtil.addCurrencySignToString(expensePrice));
     }
 }
