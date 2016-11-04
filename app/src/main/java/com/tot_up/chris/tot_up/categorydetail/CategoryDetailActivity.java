@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -47,7 +48,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
     private TextView weekPriceText;
     private EditText expenseCostText;
     private FloatingActionButton openToolbarFab;
-    private AppBarLayout appBarLayout;
     CustomFabToolbar fabToolbar;
     String categoryName;
     String imagePath;
@@ -73,6 +73,17 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
             presenter.addExpense(expenseToAdd);
             expenseCostText.setText("");
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -134,7 +145,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setUpRecyclerView();
         setUpEmptyText();
         setUpToolbar();
-        setUpAppBarLayout();
         setUpCollapsingToolbar();
         setUpCollapsingLayout();
         setUpOpenToolbarFab();
@@ -164,10 +174,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements Categor
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setUpAppBarLayout(){
-        appBarLayout = (AppBarLayout) findViewById(R.id.category_detail_appbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
     }
 
     private void setUpCollapsingToolbar(){
