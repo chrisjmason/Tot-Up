@@ -1,6 +1,7 @@
 package com.tot_up.chris.tot_up.categorydetail;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     private Context context;
     private CategoryDetailInterface.Presenter presenter;
     CardView cardView;
+    private String categoryName;
 
     public CategoryDetailAdapter(CategoryDetailInterface.Presenter presenter, Context context) {
         this.presenter = presenter;
@@ -44,8 +46,10 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
         ImageView expenseImage = (ImageView) cardView.findViewById(R.id.expense_image);
 
         Expense expense = expenseList.get(position);
+        categoryName = expense.getCategoryName();
 
-        setCardViewListener(expense);
+        cardView.setOnClickListener(v -> presenter.goToDetail(expense));
+        cardView.setOnLongClickListener(v -> openDeleteDialog(position));
 
         String expensePriceString = expense.getDecimalPrice().toString();
         expensePrice.setText(StringFormatterUtil.addCurrencySignToString(expensePriceString));
@@ -56,6 +60,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
         Glide.with(context)
                 .load(expense.getImageSrc())
                 .into(expenseImage);
+
     }
 
     @Override
@@ -71,8 +76,15 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
         notifyDataSetChanged();
     }
 
-    public void setCardViewListener(Expense expense){
-        cardView.setOnClickListener(v -> presenter.goToDetail(expense));
+    private boolean openDeleteDialog(int position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Delete")
+                .setMessage("Are you sure you want to delete?")
+                .setPositiveButton("Yes", (dialog, which) -> presenter.deleteExpense(position, categoryName))
+                .setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()))
+                .create()
+                .show();
+        return true;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
