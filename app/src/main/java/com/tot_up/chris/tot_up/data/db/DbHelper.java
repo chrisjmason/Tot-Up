@@ -28,16 +28,16 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     private static final String DATABASE_NAME = "TotUpDb.db";
     private static final int DATABASE_VERSION = 6;
 
-    public DbHelper(Context context){
+    private DbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-//    public static DbHelper getInstance(Context context) {
-//        if (instance == null) {
-//            instance = new DbHelper(context.getApplicationContext());
-//        }
-//        return instance;
-//    }
+    public static DbHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DbHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -72,7 +72,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     @Override
     public boolean deleteCategory(int position) {
         SQLiteDatabase database = getWritableDatabase();
-        List<Integer> idList = getIdList(CATEGORY_TABLE_NAME, COL_CATEGORY_ID);
+        List<Integer> idList = getIdList(CATEGORY_TABLE_NAME, COL_CATEGORY_ID, null);
         int idToDelete = idList.get(position);
         return (database.delete(CATEGORY_TABLE_NAME, COL_CATEGORY_ID + "=" + idToDelete, null) >0);
     }
@@ -113,9 +113,10 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     @Override
     public boolean deleteExpense(String categoryName, int position) {
         SQLiteDatabase database = getWritableDatabase();
-        List<Integer> idList = getIdList(EXPENSE_TABLE_NAME, COL_EXPENSE_ID);
+        List<Integer> idList = getIdList(EXPENSE_TABLE_NAME, COL_EXPENSE_ID, categoryName);
         int idToDelete = idList.get(position);
-        return (database.delete(EXPENSE_TABLE_NAME, COL_EXPENSE_ID + "=" + idToDelete, null) > 0);
+        String whereClause = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'" + " AND " + COL_EXPENSE_ID + " = '" + String.valueOf(idToDelete) +"'";
+        return (database.delete(EXPENSE_TABLE_NAME, whereClause, null) > 0);
     }
 
     @Override
@@ -132,7 +133,6 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
 
         try{
             Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
-            Log.d("Expenses since", String.valueOf(cursor.getColumnCount()));
             return cursorToExpenseTotal(cursor);
         }catch (SQLiteException ex){
             ex.printStackTrace();
@@ -186,10 +186,15 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         return totalPrice.toString();
     }
 
-    private List<Integer> getIdList(String tableName, String idColumn){
+    private List<Integer> getIdList(String tableName, String idColumn, String categoryName){
         SQLiteDatabase database = getWritableDatabase();
         List<Integer> categoryIdList = new ArrayList<>();
-        Cursor cursor = database.query(tableName, new String[]{idColumn}, null, null, null,null,null);
+
+        String where = null;
+        if(tableName.equals(EXPENSE_TABLE_NAME)){
+            where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'";
+        }
+        Cursor cursor = database.query(tableName, new String[]{idColumn}, where, null, null,null,null);
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
