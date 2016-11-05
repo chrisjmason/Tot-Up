@@ -24,6 +24,8 @@ public interface DbInterface {
 
     Expense getExpense(String categoryName, int position);
 
+    List<Category> getCategoryListWithTotals(String totalFromDate);
+
     String getExpenseTotalSince(String categoryName, String expenseFromDate);
 
 }

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings;
 import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
@@ -23,7 +22,7 @@ import static com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings.*;
 
 
 public class DbHelper extends SQLiteOpenHelper implements DbInterface {
-    static DbHelper instance;
+    private static DbHelper instance;
 
     private static final String DATABASE_NAME = "TotUpDb.db";
     private static final int DATABASE_VERSION = 6;
@@ -140,6 +139,11 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         }
     }
 
+    @Override
+    public List<Category> getCategoryListWithTotals(String totalFromDate) {
+        return addTotalsForCategoryList(getCategoryList(), totalFromDate);
+    }
+
     private List<Category> cursorToCategoryList(Cursor cursor){
         List<Category> categoryList = new ArrayList<>();
         cursor.moveToFirst();
@@ -184,6 +188,14 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
 
         cursor.close();
         return totalPrice.toString();
+    }
+
+    private List<Category> addTotalsForCategoryList(List<Category> categoryList, String expenseFromDate){
+        for(Category category : categoryList){
+            String categoryTotal = getExpenseTotalSince(category.getName(), expenseFromDate);
+            category.setTotal(categoryTotal);
+        }
+        return categoryList;
     }
 
     private List<Integer> getIdList(String tableName, String idColumn, String categoryName){

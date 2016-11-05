@@ -1,24 +1,31 @@
 package com.tot_up.chris.tot_up.data.model;
 
+import java.math.BigDecimal;
+
 public class Category {
     private String name;
-    private double total;
+    private BigDecimal total;
     private String date;
 
     public Category(String name, String date){
+        this(name, date, null);
+    }
+
+    public Category(String name, String date, String total){
         this.name = name;
         this.date = date;
+        this.total = new BigDecimal(total).setScale(2);
     }
 
     public String getName(){
         return name;
     }
 
-    public void setTotal(double total){
-        this.total = total;
+    public void setTotal(String total){
+        this.total = new BigDecimal(total).setScale(2);
     }
 
-    public double getTotal(){
+    public BigDecimal getTotal(){
         return total;
     }
 
@@ -27,6 +34,7 @@ public class Category {
     @Override
     public String toString() {
         return "Name: " + name
-                + "Date: " + date;
+                + "Date: " + date
+                + "Total: " + total.toString();
     }
 }
