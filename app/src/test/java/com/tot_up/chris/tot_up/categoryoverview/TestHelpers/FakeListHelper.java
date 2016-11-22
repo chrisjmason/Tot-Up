@@ -13,8 +13,8 @@ public class FakeListHelper {
 
     public static List<Category> getFakeCategoryList(){
         List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("test1", DateUtil.getDate()));
-        categoryList.add(new Category("test2", DateUtil.getDate()));
+        categoryList.add(new Category("test1", DateUtil.getDate(), "2.40"));
+        categoryList.add(new Category("test2", DateUtil.getDate(),"2.70"));
         return categoryList;
     }
 

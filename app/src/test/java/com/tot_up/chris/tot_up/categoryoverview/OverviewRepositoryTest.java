@@ -1,6 +1,7 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
 import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
+import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeSubscriberHelper;
 import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepository;
@@ -38,7 +39,7 @@ public class OverviewRepositoryTest {
         List<Category> categoryList = FakeListHelper.getFakeCategoryList();
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
+        TestSubscriber<List<Category>> testSubscriber = FakeSubscriberHelper.getListTestSubscriber();
 
         repository.getCategoryList()
                 .subscribe(testSubscriber);
@@ -57,7 +58,7 @@ public class OverviewRepositoryTest {
         when(database.addCategory(categoryToAdd)).thenReturn(categoryList.add(categoryToAdd));
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
+        TestSubscriber<List<Category>> testSubscriber = FakeSubscriberHelper.getListTestSubscriber();
 
         repository.addCategory(categoryToAdd)
                 .subscribe(testSubscriber);
@@ -78,7 +79,7 @@ public class OverviewRepositoryTest {
         when(database.deleteCategory(positionToDelete)).thenReturn(categoryList.remove(categoryToDelete));
         when(database.getCategoryList()).thenReturn(categoryList);
 
-        TestSubscriber<List<Category>> testSubscriber = getListTestSubscriber();
+        TestSubscriber<List<Category>> testSubscriber = FakeSubscriberHelper.getListTestSubscriber();
 
         repository.deleteCategory(positionToDelete)
                 .subscribe(testSubscriber);
@@ -107,11 +108,5 @@ public class OverviewRepositoryTest {
         verify(database).getCategory(positionToGet);
         verifyNoMoreInteractions(database);
         testSubscriber.assertValue(categoryReceived);
-    }
-
-    private TestSubscriber<List<Category>> getListTestSubscriber() {
-        TestSubscriber<List<Category>> testSubscriber = new TestSubscriber<>();
-        testSubscriber.assertNoErrors();
-        return testSubscriber;
     }
 }
