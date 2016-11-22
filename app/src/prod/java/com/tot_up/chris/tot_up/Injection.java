@@ -5,6 +5,8 @@ import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetailRepository;
 import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetailRepositoryInterface;
 import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepository;
+import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepository;
+import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
 import com.tot_up.chris.tot_up.util.application.MyApplication;
 
 import rx.Scheduler;
@@ -15,7 +17,6 @@ import rx.schedulers.Schedulers;
 public class Injection {
     private static Scheduler uiThread = AndroidSchedulers.mainThread();
     private static Scheduler workThread = Schedulers.io();
-    private static Scheduler mockThread = Schedulers.immediate();
 
     private Injection(){}
 
@@ -27,8 +28,12 @@ public class Injection {
         return new CategoryDetailRepository(provideDb(), workThread, uiThread);
     }
 
+    public static CategoryTotalRepositoryInterface provideCategoryTotalRepository(){
+        return new CategoryTotalRepository(provideDb(), workThread, uiThread);
+    }
+
     private static DbInterface provideDb(){
-        return new DbHelper(MyApplication.getContext());
+        return DbHelper.getInstance(MyApplication.getContext());
     }
 
 }
