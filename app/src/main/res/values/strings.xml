@@ -2,5 +2,7 @@
     <string name="app_name">Tot-Up</string>
     <string name="add_category_edittext">Category name</string>
     <string name="add_expense_edittext">Cost</string>
-    <string name="empty_category_list"></string>
+    <string name="empty_category_list">Please add an expense category to get started.</string>
+    <string name="empty_category_list2">Choose categories that you spend most of your money on, e.g Travel, Food, Equipment etc</string>
+    <string name="empty_expense_list">Please add an expense to get started</string>
 </resources>
