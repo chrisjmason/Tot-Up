@@ -8,7 +8,7 @@ public class Category {
     private String date;
 
     public Category(String name, String date){
-        this(name, date, null);
+        this(name, date, "0");
     }
 
     public Category(String name, String date, String total){
