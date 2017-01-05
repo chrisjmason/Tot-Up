@@ -46,6 +46,13 @@ public class DateUtil {
         return formatDate(calendar.getTime());
     }
 
+    public static String getStartOfYear(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        return formatDate(calendar.getTime());
+    }
+
     private static String formatDate(Date dateToFormat){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(dateToFormat);
