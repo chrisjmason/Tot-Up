@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ImageFileUtil {
 
-    static File totUpDir;
+    private static File totUpDir;
 
     public static File createImageFile(Context context) throws IOException{
         makeTotUpDir(context);
