@@ -23,7 +23,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     private List<Expense> expenseList;
     private Context context;
     private CategoryDetailInterface.Presenter presenter;
-    CardView cardView;
+
     private String categoryName;
 
     public CategoryDetailAdapter(CategoryDetailInterface.Presenter presenter, Context context) {
@@ -40,7 +40,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
     @Override
     public void onBindViewHolder(CategoryDetailAdapter.ViewHolder holder, int position) {
-        cardView = holder.cardView;
+        CardView cardView = holder.cardView;
         TextView expensePrice = (TextView) cardView.findViewById(R.id.expense_price_text);
         TextView expenseDate = (TextView) cardView.findViewById(R.id.expense_date_text);
         ImageView expenseImage = (ImageView) cardView.findViewById(R.id.expense_image);

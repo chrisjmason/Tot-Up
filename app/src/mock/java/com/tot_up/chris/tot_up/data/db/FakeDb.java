@@ -14,7 +14,7 @@ import java.util.Map;
 
 //Mock database to use while developing app in order to put off exact database implementation for as long as possible
 
-public class FakeDb implements DbInterface {
+public class FakeDb implements DbInterface.ExpenseInterface, DbInterface.CategoryInterface{
 
     static final String TEST_LIST = "test";
 
@@ -92,5 +92,7 @@ public class FakeDb implements DbInterface {
     public Expense getExpense(String categoryName, int position) {
         return null;
     }
+
+
 
 }
