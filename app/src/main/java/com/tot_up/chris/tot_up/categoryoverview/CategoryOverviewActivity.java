@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
+import com.tot_up.chris.tot_up.categorytotals.CategoryTotalsActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.customfabtoolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
@@ -145,7 +146,11 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     public void drawerContentInit(NavigationView navigationView){
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(menu -> {
-            //switch statement goes here
+            switch (menu.getItemId()){
+                case R.id.action_report:
+                    Intent intent = new Intent(this, CategoryTotalsActivity.class);
+                    startActivity(intent);
+            }
 
             return false;
         });
