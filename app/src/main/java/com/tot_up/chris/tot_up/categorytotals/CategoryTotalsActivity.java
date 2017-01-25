@@ -60,7 +60,6 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         setUpAdapter();
         setUpRecycler();
         setUpButtons();
-
     }
 
     public void setUpAdapter(){
@@ -82,11 +81,11 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         buttonList.add(weekButton);
         buttonList.add(monthButton);
         buttonList.add(yearButton);
+        buttonPressed(weekButton);
     }
 
     public void setUpWeekButton(){
         weekButton = (Button) findViewById(R.id.week_button);
-        buttonPressed(weekButton);
 
         weekButton.setOnClickListener(v -> {
             presenter.getCategoryListWithTotals(DateUtil.getStartOfWeek());
@@ -95,7 +94,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     public void setUpMonthButton(){
-        monthButton = (Button) findViewById(R.id.week_button);
+        monthButton = (Button) findViewById(R.id.month_button);
         monthButton.setOnClickListener(v -> {
             presenter.getCategoryListWithTotals(DateUtil.getStartOfMonth());
             buttonPressed(monthButton);
@@ -106,7 +105,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         yearButton = (Button) findViewById(R.id.year_button);
         yearButton.setOnClickListener(v -> {
             presenter.getCategoryListWithTotals(DateUtil.getStartOfYear());
-            buttonPressed(monthButton);
+            buttonPressed(yearButton);
         });
     }
 
@@ -114,7 +113,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         button.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
         
         for(Button buttonUnclick:buttonList){
-            if(buttonUnclick!=button){
+            if(!buttonUnclick.equals(button)){
                 buttonUnclick.setBackgroundColor(ContextCompat.getColor(this,R.color.colorLilac));
             }
         }
