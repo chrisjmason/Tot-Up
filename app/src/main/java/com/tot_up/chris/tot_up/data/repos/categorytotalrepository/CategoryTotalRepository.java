@@ -26,4 +26,9 @@ public class CategoryTotalRepository implements CategoryTotalRepositoryInterface
                 .observeOn(ui)
                 .subscribeOn(worker);
     }
+
+    @Override
+    public Observable<Boolean> makeSpreadsheet(List<String> tables) {
+        return null;
+    }
 }

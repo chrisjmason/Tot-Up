@@ -13,10 +13,13 @@ public interface CategoryTotalInterface {
 
         void showEmpty();
 
-        void showErrorMessage(String error);
+        void showMessage(String error);
+
     }
 
     interface Presenter{
         void getCategoryListWithTotals(String totalDateFrom);
+
+        void makeSpreadsheet(List<String> tablesForSpreadsheet);
     }
 }

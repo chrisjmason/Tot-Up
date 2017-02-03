@@ -31,7 +31,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_totals);
+        setContentView(R.layout.activity_category_totals2);
         setUpPresenter();
         setUpUi();
         presenter.getCategoryListWithTotals(DateUtil.getStartOfWeek());
@@ -48,7 +48,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     @Override
-    public void showErrorMessage(String error) {
+    public void showMessage(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 

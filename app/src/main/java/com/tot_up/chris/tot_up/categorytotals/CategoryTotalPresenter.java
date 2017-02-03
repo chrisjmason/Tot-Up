@@ -8,6 +8,8 @@ import java.util.List;
 
 public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface.View> implements CategoryTotalInterface.Presenter {
     public static final String LIST_ERROR_MESSAGE = "Error, please try again";
+    public static final String SPREADSHEET_SUCCESS = "Spreadsheet exported!";
+    public static final String SPREADSHEET_FAILURE = "Error exporting spreadsheet";
 
     private CategoryTotalInterface.View view;
     private CategoryTotalRepositoryInterface repository;
@@ -23,8 +25,23 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
                 .subscribe(categories -> updateView(categories),
                         e ->{
                             e.printStackTrace();
-                            getView().showErrorMessage(LIST_ERROR_MESSAGE);
+                            getView().showMessage(LIST_ERROR_MESSAGE);
                         });
+    }
+
+    @Override
+    public void makeSpreadsheet(List<String> tablesForSpreadsheet) {
+        repository.makeSpreadsheet(tablesForSpreadsheet)
+                .subscribe(result -> {
+                    if(result){
+                        getView().showMessage(SPREADSHEET_SUCCESS);
+                    }else{
+                        getView().showMessage(SPREADSHEET_FAILURE);
+                    }
+                }, e -> {
+                        e.printStackTrace();
+                        getView().showMessage(SPREADSHEET_FAILURE);
+                });
     }
 
     private void updateView(List<Category> categoryList){

@@ -9,4 +9,6 @@ import rx.Observable;
 public interface CategoryTotalRepositoryInterface {
 
     Observable<List<Category>> getCategoryListWithTotals(String totalFromDate);
+
+    Observable<Boolean> makeSpreadsheet(List<String> tables);
 }
