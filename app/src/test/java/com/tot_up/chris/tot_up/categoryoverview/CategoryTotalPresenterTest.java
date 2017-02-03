@@ -1,8 +1,6 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
 
-import android.database.DatabaseErrorHandler;
-
 import com.tot_up.chris.tot_up.categoryoverview.TestHelpers.FakeListHelper;
 import com.tot_up.chris.tot_up.categorytotals.CategoryTotalInterface;
 import com.tot_up.chris.tot_up.categorytotals.CategoryTotalPresenter;
@@ -16,16 +14,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.LinkedTransferQueue;
 
 import rx.Observable;
 
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class CategoryTotalPresenterTest {
@@ -36,9 +33,13 @@ public class CategoryTotalPresenterTest {
     CategoryTotalRepositoryInterface repository;
 
     CategoryTotalInterface.Presenter presenter;
-    Observable<List<Category>> obsSuccess = Observable.just(FakeListHelper.getFakeCategoryList());
-    Observable<List<Category>> obsEmpty = Observable.just(Collections.emptyList());
-    Observable<List<Category>> obsError = Observable.error(new IOException());
+    Observable<List<Category>> obsGetListSuccess = Observable.just(FakeListHelper.getFakeCategoryList());
+    Observable<List<Category>> obsGetListEmpty = Observable.just(Collections.emptyList());
+    Observable<List<Category>> obsGetListError = Observable.error(new IOException());
+
+    Observable<Boolean> obsCreateSpreadsheetSuccess = Observable.just(true);
+    Observable<Boolean> obsCreateSpreadsheetFailure = Observable.just(false);
+    Observable<Boolean> obsCreateSpreadsheetError = Observable.error(new IOException());
 
     @Before
     public void setUp(){
@@ -48,7 +49,7 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void getCategoryList_Success(){
-        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsSuccess);
+        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsGetListSuccess);
 
         presenter.getCategoryListWithTotals(DateUtil.getDate());
 
@@ -57,19 +58,53 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void getCategoryList_Error(){
-        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsError);
+        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsGetListError);
 
         presenter.getCategoryListWithTotals(DateUtil.getDate());
 
-        verify(view).showErrorMessage(CategoryTotalPresenter.LIST_ERROR_MESSAGE);
+        verify(view).showMessage(CategoryTotalPresenter.LIST_ERROR_MESSAGE);
     }
 
     @Test
     public void getEmptyListEmptyScreenShown_Success(){
-        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsEmpty);
+        when(repository.getCategoryListWithTotals(DateUtil.getDate())).thenReturn(obsGetListEmpty);
 
         presenter.getCategoryListWithTotals(DateUtil.getDate());
 
         verify(view).showEmpty();
+    }
+
+    @Test
+    public void createSpreadsheet_Success(){
+        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetSuccess);
+
+        presenter.makeSpreadsheet(getTables());
+
+        verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_SUCCESS);
+    }
+
+    @Test
+    public void createSpreadsheet_Failure(){
+        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetFailure);
+
+        presenter.makeSpreadsheet(getTables());
+
+        verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
+    }
+
+    @Test
+    public void createSpreadsheet_Error(){
+        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetError);
+
+        presenter.makeSpreadsheet(getTables());
+
+        verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
+    }
+
+    private List<String> getTables(){
+        List<String> tempTable = new ArrayList<>();
+        tempTable.add("food");
+        tempTable.add("travel");
+        return tempTable;
     }
 }
