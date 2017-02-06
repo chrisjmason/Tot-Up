@@ -41,10 +41,13 @@ public class CategoryTotalPresenterTest {
     Observable<Boolean> obsCreateSpreadsheetFailure = Observable.just(false);
     Observable<Boolean> obsCreateSpreadsheetError = Observable.error(new IOException());
 
+    List<String> fakeTablesList;
+
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         presenter = new CategoryTotalPresenter(view, repository);
+        fakeTablesList = FakeListHelper.getFakeTablesList();
     }
 
     @Test
@@ -76,35 +79,36 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void createSpreadsheet_Success(){
-        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetSuccess);
+        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetSuccess);
 
-        presenter.makeSpreadsheet(getTables());
+        presenter.makeSpreadsheet(fakeTablesList);
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_SUCCESS);
     }
 
     @Test
     public void createSpreadsheet_Failure(){
-        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetFailure);
+        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetFailure);
 
-        presenter.makeSpreadsheet(getTables());
+        presenter.makeSpreadsheet(fakeTablesList);
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
     }
 
     @Test
     public void createSpreadsheet_Error(){
-        when(repository.makeSpreadsheet(getTables())).thenReturn(obsCreateSpreadsheetError);
+        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetError);
 
-        presenter.makeSpreadsheet(getTables());
+        presenter.makeSpreadsheet(fakeTablesList);
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
     }
 
-    private List<String> getTables(){
-        List<String> tempTable = new ArrayList<>();
-        tempTable.add("food");
-        tempTable.add("travel");
-        return tempTable;
+    @Test
+    public void createSpreadsheetEmptyTableList_Failure(){
+        presenter.makeSpreadsheet(FakeListHelper.getEmptyList());
+
+        verify(view).showMessage(anyString());
     }
+
 }
