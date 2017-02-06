@@ -26,6 +26,13 @@ public class FakeListHelper {
         return expenseList;
     }
 
+    public static List<String> getFakeTablesList(){
+        List<String> tempTable = new ArrayList<>();
+        tempTable.add("food");
+        tempTable.add("travel");
+        return tempTable;
+    }
+
     public static List getEmptyList(){
         return Collections.emptyList();
     }
