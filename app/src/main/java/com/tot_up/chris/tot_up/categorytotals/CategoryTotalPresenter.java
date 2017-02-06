@@ -10,6 +10,7 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
     public static final String LIST_ERROR_MESSAGE = "Error, please try again";
     public static final String SPREADSHEET_SUCCESS = "Spreadsheet exported!";
     public static final String SPREADSHEET_FAILURE = "Error exporting spreadsheet";
+    public static final String EMPTY_LIST_ERROR = "Please select a table to export";
 
     private CategoryTotalInterface.View view;
     private CategoryTotalRepositoryInterface repository;
@@ -31,9 +32,14 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
 
     @Override
     public void makeSpreadsheet(List<String> tablesForSpreadsheet) {
+        if(tablesForSpreadsheet.isEmpty()){
+            getView().showMessage(EMPTY_LIST_ERROR);
+            return;
+        }
+
         repository.makeSpreadsheet(tablesForSpreadsheet)
                 .subscribe(result -> {
-                    if(result){
+                    if(result) {
                         getView().showMessage(SPREADSHEET_SUCCESS);
                     }else{
                         getView().showMessage(SPREADSHEET_FAILURE);
