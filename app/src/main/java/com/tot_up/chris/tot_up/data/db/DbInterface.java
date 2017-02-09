@@ -1,5 +1,7 @@
 package com.tot_up.chris.tot_up.data.db;
 
+import android.database.Cursor;
+
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
 
@@ -27,5 +29,7 @@ public interface DbInterface {
     List<Category> getCategoryListWithTotals(String totalFromDate);
 
     String getExpenseTotalSince(String categoryName, String expenseFromDate);
+
+    Cursor getTableCursor(String table, String dateFrom);
 
 }

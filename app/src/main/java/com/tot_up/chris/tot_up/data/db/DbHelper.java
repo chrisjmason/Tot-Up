@@ -144,6 +144,22 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         return addTotalsForCategoryList(getCategoryList(), totalFromDate);
     }
 
+    @Override
+    public Cursor getTableCursor(String table, String dateFrom) {
+        SQLiteDatabase database = getWritableDatabase();
+        String[] rowArray = new String[]{COL_EXPENSE_PRICE, COL_EXPENSE_DATE};
+        String where = COL_EXPENSE_CATEGORY + " = '" + table + "'" + " AND " + COL_EXPENSE_DATE + " >= " + "'" + dateFrom + "'";
+        Cursor cursor = null;
+
+        try{
+            cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
+            return cursor;
+        }catch (SQLiteException ex){
+            ex.printStackTrace();
+            return cursor;
+        }
+    }
+
     private List<Category> cursorToCategoryList(Cursor cursor){
         List<Category> categoryList = new ArrayList<>();
         cursor.moveToFirst();
