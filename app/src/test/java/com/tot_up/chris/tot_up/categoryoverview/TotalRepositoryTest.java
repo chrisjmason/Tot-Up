@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Date;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -62,14 +63,14 @@ public class TotalRepositoryTest {
     @Test
     public void makeSpreadsheet_Success(){
         List<String> tablesList = FakeListHelper.getFakeTablesList();
-        when(csvUtil.makeCSV(anyString())).thenReturn(true);
+        when(csvUtil.makeCSV(any())).thenReturn(true);
 
         TestSubscriber<Boolean> testSubscriber = FakeSubscriberHelper.getCsvTestSubscriber();
 
-        repository.makeSpreadsheet(tablesList)
+        repository.makeSpreadsheet(tablesList, DateUtil.getStartOfMonth())
                 .subscribe(testSubscriber);
 
-        verify(csvUtil, atLeast(tablesList.size())).makeCSV(anyString());
+        verify(csvUtil, atLeast(tablesList.size())).makeCSV(any());
         testSubscriber.assertValues(true,true);
     }
 }

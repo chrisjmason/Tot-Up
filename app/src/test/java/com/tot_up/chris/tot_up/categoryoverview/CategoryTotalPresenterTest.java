@@ -79,7 +79,7 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void createSpreadsheet_Success(){
-        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetSuccess);
+        when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetSuccess);
 
         presenter.makeSpreadsheet(fakeTablesList);
 
@@ -88,7 +88,7 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void createSpreadsheet_Failure(){
-        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetFailure);
+        when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetFailure);
 
         presenter.makeSpreadsheet(fakeTablesList);
 
@@ -97,7 +97,7 @@ public class CategoryTotalPresenterTest {
 
     @Test
     public void createSpreadsheet_Error(){
-        when(repository.makeSpreadsheet(fakeTablesList)).thenReturn(obsCreateSpreadsheetError);
+        when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetError);
 
         presenter.makeSpreadsheet(fakeTablesList);
 
