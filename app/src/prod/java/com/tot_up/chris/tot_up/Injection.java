@@ -8,7 +8,7 @@ import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOve
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepository;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
 import com.tot_up.chris.tot_up.util.CsvUtil;
-import com.tot_up.chris.tot_up.util.application.MyApplication;
+import com.tot_up.chris.tot_up.util.Application.MyApplication;
 
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;

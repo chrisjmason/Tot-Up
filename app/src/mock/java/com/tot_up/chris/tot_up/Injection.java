@@ -30,6 +30,10 @@ public class Injection {
         return new CategoryDetailRepository(provideDb(), workThread, uiThread);
     }
 
+    public static CategoryTotalRepositoryInterface provideCategoryTotalRepository(){
+        return new CategoryTotalRepository(provideDb(), new CsvUtil(), workThread, uiThread);
+    }
+
     private static DbInterface provideDb(){
         return FakeDb.getInstance();
     }
