@@ -3,6 +3,7 @@ package com.tot_up.chris.tot_up.categorytotals;
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
+import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
             return;
         }
 
-        repository.makeSpreadsheet(tablesForSpreadsheet)
+        repository.makeSpreadsheet(tablesForSpreadsheet, DateUtil.getStartOfMonth())
                 .subscribe(result -> {
                     if(result) {
                         getView().showMessage(SPREADSHEET_SUCCESS);
