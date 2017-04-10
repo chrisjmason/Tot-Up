@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings;
-import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
+import com.tot_up.chris.tot_up.data.db.SQLiteStrings.CategoryDbStrings;
+import com.tot_up.chris.tot_up.data.db.SQLiteStrings.ExpenseDbStrings;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
 
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.*;
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings.*;
+import static com.tot_up.chris.tot_up.data.db.SQLiteStrings.CategoryDbStrings.*;
+import static com.tot_up.chris.tot_up.data.db.SQLiteStrings.ExpenseDbStrings.*;
 
 
 public class DbHelper extends SQLiteOpenHelper implements DbInterface {
@@ -149,14 +149,14 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         SQLiteDatabase database = getWritableDatabase();
         String[] rowArray = new String[]{COL_EXPENSE_PRICE, COL_EXPENSE_DATE};
         String where = COL_EXPENSE_CATEGORY + " = '" + table + "'" + " AND " + COL_EXPENSE_DATE + " >= " + "'" + dateFrom + "'";
-        Cursor cursor = null;
+        Cursor cursor;
 
         try{
             cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
             return cursor;
         }catch (SQLiteException ex){
             ex.printStackTrace();
-            return cursor;
+            return null;
         }
     }
 
