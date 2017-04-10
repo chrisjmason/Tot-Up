@@ -20,6 +20,6 @@ public interface CategoryTotalInterface {
     interface Presenter{
         void getCategoryListWithTotals(String totalDateFrom);
 
-        void makeSpreadsheet(List<String> tablesForSpreadsheet);
+        void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom);
     }
 }

@@ -32,13 +32,13 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
     }
 
     @Override
-    public void makeSpreadsheet(List<String> tablesForSpreadsheet) {
+    public void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom) {
         if(tablesForSpreadsheet.isEmpty()){
             getView().showMessage(EMPTY_LIST_ERROR);
             return;
         }
 
-        repository.makeSpreadsheet(tablesForSpreadsheet, DateUtil.getStartOfMonth())
+        repository.makeSpreadsheet(tablesForSpreadsheet, dateFrom)
                 .subscribe(result -> {
                     if(result) {
                         getView().showMessage(SPREADSHEET_SUCCESS);
