@@ -48,9 +48,9 @@ public class CsvUtilTests {
 
 //    @Test
 //    public void makeSpreadsheetFileException_Failure(){
-//        when(csvFileUtil.getFileWriter()).thenThrow(new IOException());
+//        when(csvFileUtil.getFileWriter(anyString())).thenThrow(new IOException());
 //
-//        assertFalse(csvUtil.makeCSV(cursor));
+//        assertFalse(csvUtil.makeCSV(cursor, anyString()));
 //    }
 
 }

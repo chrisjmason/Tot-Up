@@ -26,7 +26,7 @@ import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
 import com.tot_up.chris.tot_up.categorytotals.CategoryTotalsActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
-import com.tot_up.chris.tot_up.util.customfabtoolbar.CustomFabToolbar;
+import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.List;

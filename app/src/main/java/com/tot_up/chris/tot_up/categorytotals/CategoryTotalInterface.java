@@ -21,5 +21,7 @@ public interface CategoryTotalInterface {
         void getCategoryListWithTotals(String totalDateFrom);
 
         void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom);
+
+        List<String> getCategoryNameList();
     }
 }

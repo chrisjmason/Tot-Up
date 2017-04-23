@@ -5,6 +5,7 @@ import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface.View> implements CategoryTotalInterface.Presenter {
@@ -49,6 +50,19 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
                         e.printStackTrace();
                         getView().showMessage(SPREADSHEET_FAILURE);
                 });
+    }
+
+    @Override
+    public List<String> getCategoryNameList() {
+        List<String> categoryList = new ArrayList<>();
+        repository.getCategoryListWithTotals(DateUtil.getStartOfYear())
+                .subscribe(categories -> {
+                    for(Category category: categories){
+                        categoryList.add(category.getName());
+                    }
+                });
+
+        return categoryList;
     }
 
     private void updateView(List<Category> categoryList){

@@ -1,8 +1,10 @@
 package com.tot_up.chris.tot_up.categorytotals;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +17,6 @@ import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CategoryTotalsActivity extends AppCompatActivity implements CategoryTotalInterface.View {
@@ -25,7 +26,9 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     Button weekButton;
     Button monthButton;
     Button yearButton;
+    Button spreadsheetButton;
     List<Button> buttonList;
+    String currentTimePeriod;
 
 
     @Override
@@ -59,7 +62,8 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     public void setUpUi(){
         setUpAdapter();
         setUpRecycler();
-        setUpButtons();
+        setUpTimeSelectorButtons();
+        setUpSpreadsheetButton();
     }
 
     public void setUpAdapter(){
@@ -73,7 +77,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         recyclerView.setAdapter(adapter);
     }
 
-    public void setUpButtons(){
+    public void setUpTimeSelectorButtons(){
         setUpWeekButton();
         setUpMonthButton();
         setUpYearButton();
@@ -81,35 +85,44 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         buttonList.add(weekButton);
         buttonList.add(monthButton);
         buttonList.add(yearButton);
-        buttonPressed(weekButton);
+        timeSelectorButtonPressed(weekButton);
     }
+
+    public void setUpSpreadsheetButton(){
+        spreadsheetButton = (Button) findViewById(R.id.report_button);
+        spreadsheetButton.setOnClickListener(v -> makeSpreadsheetDialog());
+    }
+
 
     public void setUpWeekButton(){
         weekButton = (Button) findViewById(R.id.week_button);
 
         weekButton.setOnClickListener(v -> {
-            presenter.getCategoryListWithTotals(DateUtil.getStartOfWeek());
-            buttonPressed(weekButton);
+            currentTimePeriod = DateUtil.getStartOfWeek();
+            presenter.getCategoryListWithTotals(currentTimePeriod);
+            timeSelectorButtonPressed(weekButton);
         });
     }
 
     public void setUpMonthButton(){
         monthButton = (Button) findViewById(R.id.month_button);
         monthButton.setOnClickListener(v -> {
-            presenter.getCategoryListWithTotals(DateUtil.getStartOfMonth());
-            buttonPressed(monthButton);
+            currentTimePeriod = DateUtil.getStartOfMonth();
+            presenter.getCategoryListWithTotals(currentTimePeriod);
+            timeSelectorButtonPressed(monthButton);
         });
     }
 
     public void setUpYearButton(){
         yearButton = (Button) findViewById(R.id.year_button);
         yearButton.setOnClickListener(v -> {
-            presenter.getCategoryListWithTotals(DateUtil.getStartOfYear());
-            buttonPressed(yearButton);
+            currentTimePeriod = DateUtil.getStartOfYear();
+            presenter.getCategoryListWithTotals(currentTimePeriod);
+            timeSelectorButtonPressed(yearButton);
         });
     }
 
-    public void buttonPressed(Button button){
+    public void timeSelectorButtonPressed(Button button){
         button.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
         
         for(Button buttonUnclick:buttonList){
@@ -117,6 +130,29 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
                 buttonUnclick.setBackgroundColor(ContextCompat.getColor(this,R.color.colorLilac));
             }
         }
+    }
+
+    public void makeSpreadsheetDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+        List<String> categoryList = presenter.getCategoryNameList();
+        CharSequence[] categoryNamesCharArray = categoryList.toArray(new CharSequence[categoryList.size()]);
+
+        List<String> selectedCategories = new ArrayList<>();
+
+        builder.setTitle("Which categories to export?")
+                .setMultiChoiceItems(categoryNamesCharArray, null, (dialog, which, isChecked) -> {
+                    String selected = categoryNamesCharArray[which].toString();
+                    if(isChecked) {
+                        selectedCategories.add(selected);
+                    }else if(selectedCategories.contains(selected)){
+                        selectedCategories.remove(which);
+                    }
+                })
+                .setPositiveButton("Generate report", (dialog, which) -> {
+                    presenter.makeSpreadsheet(selectedCategories, currentTimePeriod);
+                })
+                .create()
+                .show();
     }
 
 
