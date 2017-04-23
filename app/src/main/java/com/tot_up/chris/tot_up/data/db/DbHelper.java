@@ -54,7 +54,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     @Override
     public List<Category> getCategoryList() {
         SQLiteDatabase database = getWritableDatabase();
-        String[] rowArray = new String[]{COL_CATEGORY_ID, COL_CATEORY_NAME, COL_CATEGORY_DATE};
+        String[] rowArray = new String[]{COL_CATEGORY_ID, COL_CATEGORY_NAME, COL_CATEGORY_DATE};
         Cursor cursor = database.query(CATEGORY_TABLE_NAME, rowArray, null, null, null, null, null, null);
         return cursorToCategoryList(cursor);
     }
@@ -63,7 +63,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     public boolean addCategory(Category category) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_CATEORY_NAME, category.getName());
+        contentValues.put(COL_CATEGORY_NAME, category.getName());
         contentValues.put(COL_CATEGORY_DATE, category.getDate());
         return (database.insert(CATEGORY_TABLE_NAME, null, contentValues) > 0);
     }
@@ -165,7 +165,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEORY_NAME));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY_NAME));
             String date = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY_DATE));
             Category category = new Category(name, date);
             categoryList.add(category);

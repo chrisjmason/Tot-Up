@@ -7,6 +7,7 @@ import com.tot_up.chris.tot_up.data.repos.categorydetailrepository.CategoryDetai
 import com.tot_up.chris.tot_up.data.repos.categoryoverviewrepository.CategoryOverviewRepository;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepository;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
+import com.tot_up.chris.tot_up.util.CsvFileUtil;
 import com.tot_up.chris.tot_up.util.CsvUtil;
 import com.tot_up.chris.tot_up.util.Application.MyApplication;
 
@@ -30,7 +31,11 @@ public class Injection {
     }
 
     public static CategoryTotalRepositoryInterface provideCategoryTotalRepository(){
-        return new CategoryTotalRepository(provideDb(), new CsvUtil(), workThread, uiThread);
+        return new CategoryTotalRepository(provideDb(), new CsvUtil(provideCsvFileUtil()), workThread, uiThread);
+    }
+
+    public static CsvFileUtil provideCsvFileUtil(){
+        return new CsvFileUtil();
     }
 
     private static DbInterface provideDb(){

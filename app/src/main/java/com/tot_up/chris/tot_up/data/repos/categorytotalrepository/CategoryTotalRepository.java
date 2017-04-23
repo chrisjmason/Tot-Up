@@ -37,7 +37,7 @@ public class CategoryTotalRepository implements CategoryTotalRepositoryInterface
     //need to get date from
     public Observable<Boolean> makeSpreadsheet(List<String> tables, String dateFrom) {
         return Observable.from(tables)
-                .map(table -> csvUtil.makeCSV(db.getTableCursor(table, dateFrom)))
+                .map(table -> csvUtil.makeCSV(db.getTableCursor(table, dateFrom), table))
                 .observeOn(ui)
                 .subscribeOn(worker);
     }

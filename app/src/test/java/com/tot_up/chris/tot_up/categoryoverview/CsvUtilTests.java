@@ -1,15 +1,56 @@
 package com.tot_up.chris.tot_up.categoryoverview;
 
-import org.junit.Test;
+import android.database.Cursor;
 
-/**
- * Created by cmason on 10/04/2017.
- */
+import com.tot_up.chris.tot_up.data.model.Expense;
+import com.tot_up.chris.tot_up.util.CsvFileUtil;
+import com.tot_up.chris.tot_up.util.CsvUtil;
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CsvUtilTests {
 
-    @Test
-    public void makeSpreadsheet_Success(){
+    @Mock
+    CsvFileUtil csvFileUtil;
+    @Mock
+    FileWriter fileWriter;
+    @Mock
+    Cursor cursor;
 
+    CsvUtil csvUtil;
+
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        csvUtil = new CsvUtil(csvFileUtil);
     }
+
+    @Test
+    public void makeSpreadsheetCallsFileWriter_Success(){
+        try{
+            csvUtil.makeCSV(cursor, anyString());
+        }catch(Exception ex){
+
+        }
+        verify(csvFileUtil).getFileWriter(anyString());
+    }
+
+//    @Test
+//    public void makeSpreadsheetFileException_Failure(){
+//        when(csvFileUtil.getFileWriter()).thenThrow(new IOException());
+//
+//        assertFalse(csvUtil.makeCSV(cursor));
+//    }
+
 }
