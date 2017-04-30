@@ -4,11 +4,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -43,6 +46,17 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void showTotals(List<Category> categoryList) {
         adapter.setCategoryList(categoryList);
     }
@@ -67,24 +81,36 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     public void setUpUi(){
+        setUpToolbar();
         setUpAdapter();
         setUpRecycler();
         setUpTimeSelectorButtons();
         setUpSpreadsheetButton();
     }
 
-    public void setUpAdapter(){
+    private void setUpToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.totals_toolbar);
+        toolbar.setTitle("Reports");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
+
+
+    }
+
+    private void setUpAdapter(){
         adapter = new CategoryTotalAdapter(presenter, getBaseContext());
     }
 
-    public void setUpRecycler(){
+    private void setUpRecycler(){
         recyclerView = (RecyclerView) findViewById(R.id.totals_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    public void setUpTimeSelectorButtons(){
+    private void setUpTimeSelectorButtons(){
         setUpWeekButton();
         setUpMonthButton();
         setUpYearButton();
@@ -95,13 +121,13 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         timeSelectorButtonPressed(weekButton);
     }
 
-    public void setUpSpreadsheetButton(){
+    private void setUpSpreadsheetButton(){
         spreadsheetButton = (Button) findViewById(R.id.report_button);
         spreadsheetButton.setOnClickListener(v -> makeSpreadsheetDialog());
     }
 
 
-    public void setUpWeekButton(){
+    private void setUpWeekButton(){
         weekButton = (Button) findViewById(R.id.week_button);
 
         weekButton.setOnClickListener(v -> {
@@ -111,7 +137,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         });
     }
 
-    public void setUpMonthButton(){
+    private void setUpMonthButton(){
         monthButton = (Button) findViewById(R.id.month_button);
         monthButton.setOnClickListener(v -> {
             currentTimePeriod = DateUtil.getStartOfMonth();
@@ -120,7 +146,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         });
     }
 
-    public void setUpYearButton(){
+    private void setUpYearButton(){
         yearButton = (Button) findViewById(R.id.year_button);
         yearButton.setOnClickListener(v -> {
             currentTimePeriod = DateUtil.getStartOfYear();
@@ -129,7 +155,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         });
     }
 
-    public void timeSelectorButtonPressed(Button button){
+    private void timeSelectorButtonPressed(Button button){
         presenter.getCategoryNameList();
         button.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
         
@@ -140,7 +166,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         }
     }
 
-    public void makeSpreadsheetDialog(){
+    private void makeSpreadsheetDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(CategoryTotalsActivity.this, R.style.MyDialogTheme);
         Log.d("categoryList size", String.valueOf(categoryNameList.size()));
         CharSequence[] categoryNamesCharArray = categoryNameList.toArray(new CharSequence[categoryNameList.size()]);

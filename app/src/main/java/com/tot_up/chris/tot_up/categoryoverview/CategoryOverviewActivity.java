@@ -150,6 +150,7 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
             switch (menu.getItemId()){
                 case R.id.action_report:
                     Intent intent = new Intent(this, CategoryTotalsActivity.class);
+                    drawerLayout.closeDrawer(GravityCompat.START);
                     startActivity(intent);
             }
 
