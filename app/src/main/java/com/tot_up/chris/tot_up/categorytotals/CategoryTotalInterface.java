@@ -15,6 +15,8 @@ public interface CategoryTotalInterface {
 
         void showMessage(String error);
 
+        void setCategoryList(List<String> categoryList);
+
     }
 
     interface Presenter{
@@ -22,6 +24,6 @@ public interface CategoryTotalInterface {
 
         void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom);
 
-        List<String> getCategoryNameList();
+        void getCategoryNameList();
     }
 }

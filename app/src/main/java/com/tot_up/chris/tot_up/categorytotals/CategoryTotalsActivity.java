@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     Button spreadsheetButton;
     List<Button> buttonList;
     String currentTimePeriod;
+    List<String> categoryNameList;
 
 
     @Override
@@ -53,6 +55,11 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     @Override
     public void showMessage(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setCategoryList(List<String> categoryList) {
+        this.categoryNameList = categoryList;
     }
 
     public void setUpPresenter(){
@@ -123,6 +130,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     public void timeSelectorButtonPressed(Button button){
+        presenter.getCategoryNameList();
         button.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
         
         for(Button buttonUnclick:buttonList){
@@ -133,9 +141,9 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     public void makeSpreadsheetDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
-        List<String> categoryList = presenter.getCategoryNameList();
-        CharSequence[] categoryNamesCharArray = categoryList.toArray(new CharSequence[categoryList.size()]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CategoryTotalsActivity.this, R.style.MyDialogTheme);
+        Log.d("categoryList size", String.valueOf(categoryNameList.size()));
+        CharSequence[] categoryNamesCharArray = categoryNameList.toArray(new CharSequence[categoryNameList.size()]);
 
         List<String> selectedCategories = new ArrayList<>();
 

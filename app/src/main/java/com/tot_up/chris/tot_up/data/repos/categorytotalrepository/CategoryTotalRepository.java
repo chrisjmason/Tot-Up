@@ -6,6 +6,7 @@ import com.tot_up.chris.tot_up.data.db.DbInterface;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.CsvUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -34,10 +35,24 @@ public class CategoryTotalRepository implements CategoryTotalRepositoryInterface
     }
 
     @Override
-    //need to get date from
     public Observable<Boolean> makeSpreadsheet(List<String> tables, String dateFrom) {
         return Observable.from(tables)
                 .map(table -> csvUtil.makeCSV(db.getTableCursor(table, dateFrom), table))
+                .observeOn(ui)
+                .subscribeOn(worker);
+    }
+
+    @Override
+    public Observable<List<String>> getCategoryNameList(String totalFromDate) {
+        return Observable.just(db.getCategoryListWithTotals(totalFromDate))
+                .map((categoryList -> {
+                    List<String> categoryNameList = new ArrayList<String>();
+
+                    categoryList.forEach(category -> {
+                        categoryNameList.add(category.getName());
+                    });
+                    return categoryNameList;
+                }))
                 .observeOn(ui)
                 .subscribeOn(worker);
     }

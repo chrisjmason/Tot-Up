@@ -2,9 +2,11 @@ package com.tot_up.chris.tot_up.util;
 
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.opencsv.CSVWriter;
 import com.tot_up.chris.tot_up.data.db.DbInterface;
+import com.tot_up.chris.tot_up.data.db.SQLiteStrings.ExpenseDbStrings;
 import com.tot_up.chris.tot_up.data.model.Category;
 
 import java.io.FileWriter;
@@ -22,6 +24,11 @@ public class CsvUtil {
 
     public boolean makeCSV(Cursor cursor, String tableName){
         FileWriter fileWriter = csvFileUtil.getFileWriter(tableName);
+
+        if(fileWriter == null){
+            return false;
+        }
+
         CSVWriter csvWriter = new CSVWriter(fileWriter);
 
         try{
@@ -32,7 +39,7 @@ public class CsvUtil {
             csvWriter.writeNext(colTitArray);
 
             while (cursor.moveToNext()) {
-                String[] arrStr = {cursor.getString(1), cursor.getString(2)};
+                String[] arrStr = {cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_PRICE)), cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_DATE))};
                 csvWriter.writeNext(arrStr);
             }
             csvWriter.close();

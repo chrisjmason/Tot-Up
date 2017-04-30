@@ -1,9 +1,12 @@
 package com.tot_up.chris.tot_up.categorytotals;
 
+import android.util.Log;
+
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
+import com.tot_up.chris.tot_up.util.StringCheckerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,16 +56,11 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
     }
 
     @Override
-    public List<String> getCategoryNameList() {
+    public  void getCategoryNameList() {
         List<String> categoryList = new ArrayList<>();
-        repository.getCategoryListWithTotals(DateUtil.getStartOfYear())
-                .subscribe(categories -> {
-                    for(Category category: categories){
-                        categoryList.add(category.getName());
-                    }
-                });
 
-        return categoryList;
+        repository.getCategoryNameList(DateUtil.getStartOfYear())
+                .subscribe(categories -> getView().setCategoryList(categories));
     }
 
     private void updateView(List<Category> categoryList){

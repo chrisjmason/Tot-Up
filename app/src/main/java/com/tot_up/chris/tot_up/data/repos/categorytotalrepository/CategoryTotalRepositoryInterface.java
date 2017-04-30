@@ -10,5 +10,7 @@ public interface CategoryTotalRepositoryInterface {
 
     Observable<List<Category>> getCategoryListWithTotals(String totalFromDate);
 
+    Observable<List<String>> getCategoryNameList(String totalFromDate);
+
     Observable<Boolean> makeSpreadsheet(List<String> tables, String dateFrom);
 }
