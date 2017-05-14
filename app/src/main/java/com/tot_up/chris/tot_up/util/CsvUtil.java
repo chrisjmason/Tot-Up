@@ -23,31 +23,35 @@ public class CsvUtil {
     }
 
     public boolean makeCSV(Cursor cursor, String tableName){
-        FileWriter fileWriter = csvFileUtil.getFileWriter(tableName);
+        if(cursor.getCount() != 0) {
+            FileWriter fileWriter = csvFileUtil.getFileWriter(tableName);
 
-        if(fileWriter == null){
-            return false;
-        }
-
-        CSVWriter csvWriter = new CSVWriter(fileWriter);
-
-        try{
-            String[] titleArray = {tableName, "", ""};
-            csvWriter.writeNext(titleArray);
-
-            String[] colTitArray = {"Date", "Expense Cost"};
-            csvWriter.writeNext(colTitArray);
-
-            while (cursor.moveToNext()) {
-                String[] arrStr = {cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_PRICE)), cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_DATE))};
-                csvWriter.writeNext(arrStr);
+            if (fileWriter == null) {
+                return false;
             }
-            csvWriter.close();
-            cursor.close();
-            return true;
 
-        } catch (IOException ex){
-            ex.printStackTrace();
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+
+            try {
+                String[] titleArray = {tableName, "", ""};
+                csvWriter.writeNext(titleArray);
+
+                String[] colTitArray = {"Date", "Expense Cost"};
+                csvWriter.writeNext(colTitArray);
+
+                while (cursor.moveToNext()) {
+                    String[] arrStr = {cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_PRICE)), cursor.getString(cursor.getColumnIndexOrThrow(ExpenseDbStrings.COL_EXPENSE_DATE))};
+                    csvWriter.writeNext(arrStr);
+                }
+                csvWriter.close();
+                cursor.close();
+                return true;
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }else {
             return false;
         }
 

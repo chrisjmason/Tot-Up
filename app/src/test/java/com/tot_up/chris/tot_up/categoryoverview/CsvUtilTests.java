@@ -38,8 +38,10 @@ public class CsvUtilTests {
 
     @Test
     public void makeSpreadsheetCallsFileWriter_Success(){
+        when(cursor.getCount()).thenReturn(2);
+
         try{
-            csvUtil.makeCSV(cursor, anyString());
+            csvUtil.makeCSV(cursor, "train");
         }catch(Exception ex){
 
         }
