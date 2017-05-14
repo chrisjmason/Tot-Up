@@ -30,7 +30,7 @@ public class CsvFileUtil {
         exportDir.mkdirs();
 
         Log.d("filewriter dir ", exportDir.toString());
-        File file = new File(exportDir, tablename + "expenses" + DateUtil.getTimestamp());
+        File file = new File(exportDir, tablename + "expenses" + DateUtil.getTimestamp() + ".csv");
         FileWriter fileWriter;
 
         try {
