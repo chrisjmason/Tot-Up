@@ -46,11 +46,4 @@ public class CsvUtilTests {
         verify(csvFileUtil).getFileWriter(anyString());
     }
 
-//    @Test
-//    public void makeSpreadsheetFileException_Failure(){
-//        when(csvFileUtil.getFileWriter(anyString())).thenThrow(new IOException());
-//
-//        assertFalse(csvUtil.makeCSV(cursor, anyString()));
-//    }
-
 }

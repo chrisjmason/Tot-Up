@@ -95,8 +95,6 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
-
-
     }
 
     private void setUpAdapter(){
