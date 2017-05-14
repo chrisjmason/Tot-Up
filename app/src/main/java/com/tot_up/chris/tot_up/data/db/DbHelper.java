@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings;
-import com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings;
+import com.tot_up.chris.tot_up.data.db.SQLiteStrings.CategoryDbStrings;
+import com.tot_up.chris.tot_up.data.db.SQLiteStrings.ExpenseDbStrings;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.model.Expense;
 
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.CategoryDbStrings.*;
-import static com.tot_up.chris.tot_up.data.db.sqlitestrings.ExpenseDbStrings.*;
+import static com.tot_up.chris.tot_up.data.db.SQLiteStrings.CategoryDbStrings.*;
+import static com.tot_up.chris.tot_up.data.db.SQLiteStrings.ExpenseDbStrings.*;
 
 
 public class DbHelper extends SQLiteOpenHelper implements DbInterface {
@@ -54,7 +54,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     @Override
     public List<Category> getCategoryList() {
         SQLiteDatabase database = getWritableDatabase();
-        String[] rowArray = new String[]{COL_CATEGORY_ID, COL_CATEORY_NAME, COL_CATEGORY_DATE};
+        String[] rowArray = new String[]{COL_CATEGORY_ID, COL_CATEGORY_NAME, COL_CATEGORY_DATE};
         Cursor cursor = database.query(CATEGORY_TABLE_NAME, rowArray, null, null, null, null, null, null);
         return cursorToCategoryList(cursor);
     }
@@ -63,7 +63,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
     public boolean addCategory(Category category) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_CATEORY_NAME, category.getName());
+        contentValues.put(COL_CATEGORY_NAME, category.getName());
         contentValues.put(COL_CATEGORY_DATE, category.getDate());
         return (database.insert(CATEGORY_TABLE_NAME, null, contentValues) > 0);
     }
@@ -149,14 +149,14 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         SQLiteDatabase database = getWritableDatabase();
         String[] rowArray = new String[]{COL_EXPENSE_PRICE, COL_EXPENSE_DATE};
         String where = COL_EXPENSE_CATEGORY + " = '" + table + "'" + " AND " + COL_EXPENSE_DATE + " >= " + "'" + dateFrom + "'";
-        Cursor cursor = null;
+        Cursor cursor;
 
         try{
             cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null);
             return cursor;
         }catch (SQLiteException ex){
             ex.printStackTrace();
-            return cursor;
+            return null;
         }
     }
 
@@ -165,7 +165,7 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEORY_NAME));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY_NAME));
             String date = cursor.getString(cursor.getColumnIndexOrThrow(COL_CATEGORY_DATE));
             Category category = new Category(name, date);
             categoryList.add(category);

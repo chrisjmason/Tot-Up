@@ -27,7 +27,7 @@ import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.categoryoverview.CategoryOverviewActivity;
 import com.tot_up.chris.tot_up.data.model.Expense;
 import com.tot_up.chris.tot_up.expensedetail.ExpenseDetailActivity;
-import com.tot_up.chris.tot_up.util.customfabtoolbar.CustomFabToolbar;
+import com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar;
 import com.tot_up.chris.tot_up.util.DateUtil;
 import com.tot_up.chris.tot_up.util.ImageFileUtil;
 

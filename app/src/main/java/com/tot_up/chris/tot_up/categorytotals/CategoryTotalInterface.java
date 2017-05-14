@@ -15,11 +15,15 @@ public interface CategoryTotalInterface {
 
         void showMessage(String error);
 
+        void setCategoryList(List<String> categoryList);
+
     }
 
     interface Presenter{
         void getCategoryListWithTotals(String totalDateFrom);
 
-        void makeSpreadsheet(List<String> tablesForSpreadsheet);
+        void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom);
+
+        void getCategoryNameList();
     }
 }

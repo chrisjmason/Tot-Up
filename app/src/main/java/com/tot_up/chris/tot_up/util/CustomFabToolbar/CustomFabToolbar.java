@@ -1,4 +1,4 @@
-package com.tot_up.chris.tot_up.util.customfabtoolbar;
+package com.tot_up.chris.tot_up.util.CustomFabToolbar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

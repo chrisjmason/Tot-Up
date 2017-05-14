@@ -63,14 +63,14 @@ public class TotalRepositoryTest {
     @Test
     public void makeSpreadsheet_Success(){
         List<String> tablesList = FakeListHelper.getFakeTablesList();
-        when(csvUtil.makeCSV(any())).thenReturn(true);
+        when(csvUtil.makeCSV(any(), anyString())).thenReturn(true);
 
         TestSubscriber<Boolean> testSubscriber = FakeSubscriberHelper.getCsvTestSubscriber();
 
         repository.makeSpreadsheet(tablesList, DateUtil.getStartOfMonth())
                 .subscribe(testSubscriber);
 
-        verify(csvUtil, atLeast(tablesList.size())).makeCSV(any());
+        verify(csvUtil, atLeast(tablesList.size())).makeCSV(any(), anyString());
         testSubscriber.assertValues(true,true);
     }
 }

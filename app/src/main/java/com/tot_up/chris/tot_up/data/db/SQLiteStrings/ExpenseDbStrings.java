@@ -1,4 +1,4 @@
-package com.tot_up.chris.tot_up.data.db.sqlitestrings;
+package com.tot_up.chris.tot_up.data.db.SQLiteStrings;
 
 public class ExpenseDbStrings {
 
