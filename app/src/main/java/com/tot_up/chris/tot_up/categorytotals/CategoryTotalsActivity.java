@@ -1,6 +1,5 @@
 package com.tot_up.chris.tot_up.categorytotals;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -39,7 +38,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_totals2);
+        setContentView(R.layout.activity_category_totals);
         setUpPresenter();
         setUpUi();
         presenter.getCategoryListWithTotals(DateUtil.getStartOfWeek());
