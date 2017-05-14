@@ -1,5 +1,6 @@
 package com.tot_up.chris.tot_up.data.repos.categorytotalrepository;
 
+import android.database.Cursor;
 import android.util.Log;
 
 import com.tot_up.chris.tot_up.data.db.DbInterface;
@@ -37,7 +38,10 @@ public class CategoryTotalRepository implements CategoryTotalRepositoryInterface
     @Override
     public Observable<Boolean> makeSpreadsheet(List<String> tables, String dateFrom) {
         return Observable.from(tables)
-                .map(table -> csvUtil.makeCSV(db.getTableCursor(table, dateFrom), table))
+                .map(table -> {
+                    Cursor cursor = db.getTableCursor(table, dateFrom);
+                    return cursor.getCount() != 0 && csvUtil.makeCSV(cursor, table);
+                })
                 .observeOn(ui)
                 .subscribeOn(worker);
     }

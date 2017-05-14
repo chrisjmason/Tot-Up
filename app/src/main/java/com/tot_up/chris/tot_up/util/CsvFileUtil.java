@@ -13,7 +13,6 @@ import java.io.IOException;
 
 public class CsvFileUtil {
 
-
     public FileWriter getFileWriter(String tablename) {
         if(!isExternalStorageWritable()){
             return null;

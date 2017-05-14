@@ -20,21 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/report_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/very_small_margin"
-            android:layout_marginRight="@dimen/very_small_margin"
-            android:layout_marginTop="@dimen/very_small_margin"
-            android:background="@drawable/report_button"
-            android:stateListAnimator="@drawable/appbar_always_elevated"
-            android:text="Report"
-            app:layout_constraintHorizontal_bias="0.507"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_layout" />
-
         <LinearLayout
             android:id="@+id/button_layout"
             android:layout_width="344dp"
@@ -42,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="@dimen/medium_margin"
             android:gravity="center_horizontal"
             app:layout_constraintRight_toRightOf="parent">
 
@@ -71,19 +57,36 @@
                 android:background="@drawable/totals_button" />
         </LinearLayout>
 
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_create_report"
+            android:src="@drawable/ic_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/totals_recycler"
+            app:layout_constraintBottom_toBottomOf="@+id/totals_recycler"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/button_layout" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/totals_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/very_small_margin"
-            android:layout_marginTop="@dimen/very_small_margin"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/report_button"
+            app:layout_constraintTop_toBottomOf="@+id/button_layout"
             app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
-
 </android.support.design.widget.AppBarLayout>

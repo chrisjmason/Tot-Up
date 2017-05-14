@@ -2,6 +2,7 @@ package com.tot_up.chris.tot_up.categorytotals;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -29,7 +30,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     Button weekButton;
     Button monthButton;
     Button yearButton;
-    Button spreadsheetButton;
+    FloatingActionButton spreadsheetButton;
     List<Button> buttonList;
     String currentTimePeriod;
     List<String> categoryNameList;
@@ -119,7 +120,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     }
 
     private void setUpSpreadsheetButton(){
-        spreadsheetButton = (Button) findViewById(R.id.report_button);
+        spreadsheetButton = (FloatingActionButton) findViewById(R.id.fab_create_report);
         spreadsheetButton.setOnClickListener(v -> makeSpreadsheetDialog());
     }
 
