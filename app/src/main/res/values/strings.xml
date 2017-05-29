@@ -5,4 +5,5 @@
     <string name="empty_category_list">Please add an expense category to get started.</string>
     <string name="empty_category_list2">Choose categories that you spend most of your money on, e.g Travel, Food, Equipment etc</string>
     <string name="empty_expense_list">Please add an expense to get started</string>
+    <string name="empty_totals_list">Please add an expense category to get started.</string>
 </resources>
