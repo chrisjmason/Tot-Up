@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,12 +63,15 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
 
     @Override
     public void showTotals(List<Category> categoryList) {
+        emptyText.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         adapter.setCategoryList(categoryList);
     }
 
     @Override
     public void showEmpty() {
-
+        recyclerView.setVisibility(View.INVISIBLE);
+        emptyText.setVisibility(View.VISIBLE);
     }
 
     @Override
