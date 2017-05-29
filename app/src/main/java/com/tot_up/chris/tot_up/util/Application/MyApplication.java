@@ -1,4 +1,4 @@
-package com.tot_up.chris.tot_up.util.application;
+package com.tot_up.chris.tot_up.util.Application;
 
 import android.app.Application;
 import android.content.Context;

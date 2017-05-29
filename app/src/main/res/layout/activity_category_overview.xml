@@ -53,7 +53,7 @@
                 app:layout_anchor="@id/category_recycler_view"
                 app:layout_anchorGravity="bottom|right|end"/>
 
-            <com.tot_up.chris.tot_up.util.customfabtoolbar.CustomFabToolbar
+            <com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar
                 android:id="@+id/fabtoolbar_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
 
 
 
-            </com.tot_up.chris.tot_up.util.customfabtoolbar.CustomFabToolbar>
+            </com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar>
         </android.support.design.widget.CoordinatorLayout>
 
         </android.support.design.widget.AppBarLayout>

@@ -1,10 +1,14 @@
 package com.tot_up.chris.tot_up.categorytotals;
 
+import android.util.Log;
+
 import com.tot_up.chris.tot_up.base.BasePresenter;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.data.repos.categorytotalrepository.CategoryTotalRepositoryInterface;
 import com.tot_up.chris.tot_up.util.DateUtil;
+import com.tot_up.chris.tot_up.util.StringCheckerUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface.View> implements CategoryTotalInterface.Presenter {
@@ -32,13 +36,13 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
     }
 
     @Override
-    public void makeSpreadsheet(List<String> tablesForSpreadsheet) {
+    public void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom) {
         if(tablesForSpreadsheet.isEmpty()){
             getView().showMessage(EMPTY_LIST_ERROR);
             return;
         }
 
-        repository.makeSpreadsheet(tablesForSpreadsheet, DateUtil.getStartOfMonth())
+        repository.makeSpreadsheet(tablesForSpreadsheet, dateFrom)
                 .subscribe(result -> {
                     if(result) {
                         getView().showMessage(SPREADSHEET_SUCCESS);
@@ -49,6 +53,14 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
                         e.printStackTrace();
                         getView().showMessage(SPREADSHEET_FAILURE);
                 });
+    }
+
+    @Override
+    public  void getCategoryNameList() {
+        List<String> categoryList = new ArrayList<>();
+
+        repository.getCategoryNameList(DateUtil.getStartOfYear())
+                .subscribe(categories -> getView().setCategoryList(categories));
     }
 
     private void updateView(List<Category> categoryList){

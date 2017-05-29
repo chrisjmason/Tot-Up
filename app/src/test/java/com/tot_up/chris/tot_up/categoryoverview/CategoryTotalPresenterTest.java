@@ -81,7 +81,7 @@ public class CategoryTotalPresenterTest {
     public void createSpreadsheet_Success(){
         when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetSuccess);
 
-        presenter.makeSpreadsheet(fakeTablesList);
+        presenter.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth());
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_SUCCESS);
     }
@@ -90,7 +90,7 @@ public class CategoryTotalPresenterTest {
     public void createSpreadsheet_Failure(){
         when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetFailure);
 
-        presenter.makeSpreadsheet(fakeTablesList);
+        presenter.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth());
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
     }
@@ -99,14 +99,14 @@ public class CategoryTotalPresenterTest {
     public void createSpreadsheet_Error(){
         when(repository.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth())).thenReturn(obsCreateSpreadsheetError);
 
-        presenter.makeSpreadsheet(fakeTablesList);
+        presenter.makeSpreadsheet(fakeTablesList, DateUtil.getStartOfMonth());
 
         verify(view).showMessage(CategoryTotalPresenter.SPREADSHEET_FAILURE);
     }
 
     @Test
     public void createSpreadsheetEmptyTableList_Failure(){
-        presenter.makeSpreadsheet(FakeListHelper.getEmptyList());
+        presenter.makeSpreadsheet(FakeListHelper.getEmptyList(), DateUtil.getStartOfMonth());
 
         verify(view).showMessage(anyString());
     }
