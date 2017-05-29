@@ -13,12 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.DateUtil;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     CategoryTotalInterface.Presenter presenter;
     CategoryTotalAdapter adapter;
     RecyclerView recyclerView;
+    TextView emptyText;
     Button weekButton;
     Button monthButton;
     Button yearButton;
@@ -84,6 +88,7 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         setUpToolbar();
         setUpAdapter();
         setUpRecycler();
+        setUpEmptyLayout();
         setUpTimeSelectorButtons();
         setUpSpreadsheetButton();
     }
@@ -106,6 +111,10 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setUpEmptyLayout(){
+        emptyText = (TextView) findViewById(R.id.totals_empty_text);
     }
 
     private void setUpTimeSelectorButtons(){

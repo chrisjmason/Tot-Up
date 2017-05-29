@@ -75,6 +75,22 @@
             app:layout_constraintVertical_bias="1.0"
             app:layout_constraintTop_toBottomOf="@+id/button_layout" />
 
+        <TextView
+            android:id="@+id/totals_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/very_small_margin"
+            android:layout_marginLeft="@dimen/very_small_margin"
+            android:layout_marginRight="@dimen/very_small_margin"
+            android:layout_marginTop="@dimen/very_small_margin"
+            android:text="@string/empty_totals_list"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/totals_recycler"
+            app:layout_constraintRight_toRightOf="@+id/totals_recycler"
+            app:layout_constraintTop_toTopOf="@+id/totals_recycler" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/totals_recycler"
             android:layout_width="0dp"
@@ -82,11 +98,11 @@
             android:layout_marginBottom="0dp"
             android:layout_marginTop="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_layout"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.AppBarLayout>
