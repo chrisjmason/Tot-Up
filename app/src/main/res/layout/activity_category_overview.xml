@@ -73,7 +73,7 @@
                     android:elevation="6dp">
 
                     <EditText
-                        android:layout_width="240dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:hint="@string/add_category_edittext"
@@ -99,8 +99,6 @@
                         android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
-
-
 
             </com.tot_up.chris.tot_up.util.CustomFabToolbar.CustomFabToolbar>
         </android.support.design.widget.CoordinatorLayout>

@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -53,7 +52,7 @@ public class CategoryOverviewPresenterTest {
     public void addCategory_Success(){
         when(repository.addCategory(category)).thenReturn(obsSuccess);
         presenter.addCategory(category);
-        verify(view).showMessage(CategoryOverviewPresenter.ADD_SUCCESS_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.ADD_SUCCESS_MESSAGE);
         verify(view).showCategories(anyList());
         Mockito.verifyNoMoreInteractions(view);
     }
@@ -62,14 +61,14 @@ public class CategoryOverviewPresenterTest {
     public void addCategory_Failure(){
         when(repository.addCategory(category)).thenReturn(obsError);
         presenter.addCategory(category);
-        verify(view).showMessage(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
     }
 
     @Test
     public void addEmptyCategory_Failure(){
         presenter.addCategory(emptyCategory);
-        verify(view).showMessage(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.ADD_ERROR_MESSAGE);
     }
 
     @Test
@@ -77,7 +76,7 @@ public class CategoryOverviewPresenterTest {
         when(repository.deleteCategory(position)).thenReturn(obsSuccess);
         presenter.deleteCategory(position);
         verify(view).showCategories(anyList());
-        verify(view).showMessage(CategoryOverviewPresenter.DELETE_SUCCESS_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.DELETE_SUCCESS_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
     }
 
@@ -85,7 +84,7 @@ public class CategoryOverviewPresenterTest {
     public void deleteCategory_Failure(){
         when(repository.deleteCategory(position)).thenReturn(obsError);
         presenter.deleteCategory(position);
-        verify(view).showMessage(CategoryOverviewPresenter.DELETE_ERROR_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.DELETE_ERROR_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
     }
 
@@ -101,7 +100,7 @@ public class CategoryOverviewPresenterTest {
     public void getList_Error(){
         when(repository.getCategoryList()).thenReturn(obsError);
         presenter.getCategories();
-        verify(view).showMessage(CategoryOverviewPresenter.LIST_ERROR_MESSAGE);
+        verify(view).errorAdding(CategoryOverviewPresenter.LIST_ERROR_MESSAGE);
         Mockito.verifyNoMoreInteractions(view);
     }
 
