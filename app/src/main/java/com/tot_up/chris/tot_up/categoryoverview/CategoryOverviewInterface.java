@@ -13,7 +13,7 @@ public interface CategoryOverviewInterface {
 
         void showEmptyScreen();
 
-        void showMessage(String error);
+        void errorAdding(String error);
 
         void goToDetail(String categoryName);
 

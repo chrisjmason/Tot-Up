@@ -21,16 +21,18 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
+            android:background="@color/colorLilac"
             app:contentScrim="@color/colorLilac"
             app:expandedTitleMarginStart="@dimen/small_margin"
             app:expandedTitleMarginBottom="@dimen/medium_margin">
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin"
                 android:fitsSystemWindows="true"
-                android:background="@color/colorLilac">
+                android:background="@color/transparent">
 
                 <TextView
                     android:layout_width="wrap_content"
