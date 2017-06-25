@@ -63,6 +63,11 @@ public class CategoryTotalPresenter extends BasePresenter<CategoryTotalInterface
                 .subscribe(categories -> getView().setCategoryList(categories));
     }
 
+    @Override
+    public void goToCategory(String categoryName) {
+        getView().goToCategory(categoryName);
+    }
+
     private void updateView(List<Category> categoryList){
         if(categoryList.isEmpty()){
             getView().showEmpty();

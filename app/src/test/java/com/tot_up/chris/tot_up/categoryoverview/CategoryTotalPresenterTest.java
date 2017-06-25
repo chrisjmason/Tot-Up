@@ -111,4 +111,12 @@ public class CategoryTotalPresenterTest {
         verify(view).showMessage(anyString());
     }
 
+    @Test
+    public void goToCategory_Success(){
+        String CATEGORY_NAME = "travel";
+        presenter.goToCategory(CATEGORY_NAME);
+
+        verify(view).goToCategory(CATEGORY_NAME);
+    }
+
 }
