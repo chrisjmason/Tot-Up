@@ -88,8 +88,9 @@ public class CategoryOverviewActivity extends AppCompatActivity implements Categ
     }
 
     @Override
-    public void showMessage(String error) {
+    public void errorAdding(String error) {
         Toast.makeText(CategoryOverviewActivity.this, error, Toast.LENGTH_SHORT).show();
+        openToolbarFab.setVisibility(View.VISIBLE);
     }
 
     @Override

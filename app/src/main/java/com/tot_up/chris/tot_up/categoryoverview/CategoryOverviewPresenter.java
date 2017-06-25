@@ -74,7 +74,7 @@ public class CategoryOverviewPresenter extends BasePresenter<CategoryOverviewInt
     }
 
     private void showMessageInView(String message){
-        getView().showMessage(message);
+        getView().errorAdding(message);
     }
 
     private void updateView(List<Category> categoryList){
