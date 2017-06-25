@@ -88,9 +88,10 @@ public class DbHelper extends SQLiteOpenHelper implements DbInterface {
         SQLiteDatabase database = getWritableDatabase();
         String[] rowArray = new String[]{COL_EXPENSE_CATEGORY, COL_EXPENSE_PRICE, COL_EXPENSE_DATE, COL_EXPENSE_IMAGE};
         String where = COL_EXPENSE_CATEGORY + " = '" + categoryName + "'";
+        String order = COL_EXPENSE_DATE + " DESC";
 
         try{
-            Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, null, null);
+            Cursor cursor = database.query(EXPENSE_TABLE_NAME, rowArray, where, null, null, null, order, null);
             return cursorToExpenseList(cursor);
         }catch (SQLiteException ex){
             ex.printStackTrace();
