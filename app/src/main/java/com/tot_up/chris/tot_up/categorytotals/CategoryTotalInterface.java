@@ -17,6 +17,8 @@ public interface CategoryTotalInterface {
 
         void setCategoryList(List<String> categoryList);
 
+        void goToCategory(String categoryName);
+
     }
 
     interface Presenter{
@@ -25,5 +27,7 @@ public interface CategoryTotalInterface {
         void makeSpreadsheet(List<String> tablesForSpreadsheet, String dateFrom);
 
         void getCategoryNameList();
+
+        void goToCategory(String categoryName);
     }
 }

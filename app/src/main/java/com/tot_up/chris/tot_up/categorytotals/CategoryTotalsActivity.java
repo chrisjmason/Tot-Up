@@ -1,5 +1,6 @@
 package com.tot_up.chris.tot_up.categorytotals;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.tot_up.chris.tot_up.Injection;
 import com.tot_up.chris.tot_up.R;
+import com.tot_up.chris.tot_up.categorydetail.CategoryDetailActivity;
 import com.tot_up.chris.tot_up.data.model.Category;
 import com.tot_up.chris.tot_up.util.DateUtil;
 
@@ -28,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTotalsActivity extends AppCompatActivity implements CategoryTotalInterface.View {
+    public static final String CATEGORY_NAME = "category";
+
     CategoryTotalInterface.Presenter presenter;
     CategoryTotalAdapter adapter;
     RecyclerView recyclerView;
@@ -82,6 +86,13 @@ public class CategoryTotalsActivity extends AppCompatActivity implements Categor
     @Override
     public void setCategoryList(List<String> categoryList) {
         this.categoryNameList = categoryList;
+    }
+
+    @Override
+    public void goToCategory(String categoryName) {
+        Intent intent = new Intent(this, CategoryDetailActivity.class);
+        intent.putExtra(CATEGORY_NAME, categoryName);
+        startActivity(intent);
     }
 
     public void setUpPresenter(){

@@ -42,6 +42,8 @@ public class CategoryTotalAdapter extends RecyclerView.Adapter<CategoryTotalAdap
         String categoryTitleString = category.getName();
         String categoryTotalString = category.getTotal().toString();
 
+        cardView.setOnClickListener((v -> presenter.goToCategory(categoryTitleString)));
+
         categoryTitle.setText(categoryTitleString);
         categoryTotal.setText(StringFormatterUtil.addCurrencySignToString(categoryTotalString));
 
